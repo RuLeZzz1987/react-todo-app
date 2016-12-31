@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Editor from '../common/Editor';
+import Category from '../common/Category';
 
 class Categories extends Component {
     
@@ -7,7 +8,7 @@ class Categories extends Component {
         super(props);
         
         this.state = {
-            categories: {},
+            categories: {'Category 1': {}},
             categoryName: '',
         };
         
@@ -40,6 +41,14 @@ class Categories extends Component {
                         add={this.add}
                         onChange={this.changeCategoryName}
                     />
+                </section>
+                <section className="categories-tree">
+                    {Object.keys(this.state.categories).map(name=>
+                        <Category
+                            key={name}
+                            name={name}
+                        />
+                    )}
                 </section>
             </aside>
         )
