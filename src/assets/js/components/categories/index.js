@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Editor from '../common/Editor';
-import Category from '../common/Category';
+import CategoryItem from '../common/Category';
 
 class Categories extends Component {
     
@@ -44,7 +44,7 @@ class Categories extends Component {
                 </section>
                 <section className="categories-tree">
                     {Object.keys(this.state.categories).map(name=>
-                        <Category
+                        <CategoryItem
                             key={name}
                             name={name}
                         />

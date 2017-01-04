@@ -1,10 +1,29 @@
 
 .category {
+  position: relative;
   padding-top: 2px;
   height: 32px;
   width: 256px;
   font-size: 20px;
   border: 1px solid;
+
+  .fa-edit {
+    position: absolute;
+    right: 74px;
+  }
+
+  .category-editor {
+    width: 120px;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    border: none;
+
+    &:focus {
+      border: none;
+      outline: none;
+    }
+  }
 
   .remove-add-controls, i, h3 {
     vertical-align: middle;
@@ -73,7 +92,6 @@
     background-color: cornflowerblue;
   }
 }
-
 
 .search-box {
   display: inline-block;
