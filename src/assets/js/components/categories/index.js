@@ -36,22 +36,26 @@ class Categories extends Component {
     
     changeCategoryName(id, name) {
         this.setState({
-            categories: this.updateName(this.state.categories, id, name)
+            categories: this.update(
+                this.state.categories,
+                id,
+                name,
+                function (categories) {
+                    categories.push(this.updateName(name))
+                }
+            )
         })
     }
     
     removeCategory(id) {
         this.setState({
-            categories: this.update(this.state.categories, id, ()=> {
-            })
+            categories: this.update(
+                this.state.categories,
+                id,
+                ()=> {
+                }
+            )
         })
-    }
-    
-    updateName(categories, id, name) {
-        const mapper = function (categories) {
-            categories.push(this.updateName(name))
-        };
-        return this.update(categories, id, mapper);
     }
     
     update(categories, id, mapper, isUpdated = {value: false}) {
