@@ -3,12 +3,30 @@ import React, { Component, PropTypes } from 'react';
 class Editor extends Component {
     
     static propTypes = {
-        onChange: PropTypes.func.isRequired,
-        value: PropTypes.string.isRequired,
         add: PropTypes.func.isRequired,
         placeholder: PropTypes.string,
-        width: PropTypes.number
+        width: PropTypes.number,
+        isError: PropTypes.bool.isRequired,
+        errorMessage: PropTypes.string.isRequired,
+        clearError: PropTypes.func.isRequired
     };
+    
+    constructor(props) {
+        super(props);
+        
+        this.state = {
+            name: ''
+        };
+        
+        this.add = () => this.props.add(this.state.name, this.clearName);
+        this.onChange = e => {
+            if (this.props.isError) {
+                this.props.clearError();
+            }
+            this.setState({name: e.target.value});
+        };
+        this.clearName = () => this.setState({name: ''})
+    }
     
     render() {
         return (
@@ -17,9 +35,12 @@ class Editor extends Component {
             >
                 <input
                     type="text"
+                    name="category"
+                    value={this.state.name}
                     placeholder={this.props.placeholder}
                     onChange={this.onChange}
                 />
+                {this.props.isError && <label htmlFor="category">{this.props.errorMessage}</label>}
                 <div
                     className="add-button"
                     onClick={this.add}

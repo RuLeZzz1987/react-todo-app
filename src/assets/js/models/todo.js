@@ -1,4 +1,5 @@
 import uuid from 'uuid'
+import * as Constants from '../constants';
 
 const _id = Symbol('id');
 const _name = Symbol('name');
@@ -8,7 +9,7 @@ const _isComplete = Symbol('isComplete');
 const _type = Symbol('type');
 
 
-class Todo {
+export class Todo {
 
     constructor(name, id, createdAt, isComplete) {
         this[_name] = name;
@@ -16,7 +17,7 @@ class Todo {
         this[_createdAt] = createdAt || Date.now();
         this[_updatedAt] = Date.now();
         this[_isComplete] = isComplete;
-        this[_type] = 'todo';
+        this[_type] = Constants.TODO;
     }
 
     get name(){
@@ -61,5 +62,3 @@ class Todo {
         )
     }
 }
-
-export default Todo

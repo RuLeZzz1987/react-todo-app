@@ -2,10 +2,19 @@
 .category {
   position: relative;
   padding-top: 2px;
-  height: 32px;
+  height: 33px;
   width: 256px;
   font-size: 20px;
   border: 1px solid;
+
+  .fullname {
+    position: absolute;
+    border: 1px solid;
+    top: 20px;
+    left: 30px;
+    background-color: #fff;
+    z-index: 2;
+  }
 
   .fa-edit {
     position: absolute;
@@ -23,6 +32,13 @@
       border: none;
       outline: none;
     }
+  }
+
+  .displayed-name{
+    width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
   }
 
   .remove-add-controls, i, h3 {

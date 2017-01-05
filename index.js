@@ -12,4 +12,4 @@ const server = new WebpackDevServer(compiler, {
     color: true,
     clientLogLevel: 'warning'
 });
-server.listen(8080);
+server.listen(8880);

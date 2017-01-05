@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Editor from '../common/Editor';
 import CategoryItem from '../common/Category';
+import { Category } from '../../models';
 
 class Categories extends Component {
     
@@ -8,27 +9,63 @@ class Categories extends Component {
         super(props);
         
         this.state = {
-            categories: {'Category 1': {}},
-            categoryName: '',
+            categories: [new Category({name: 'Category_1', children: [new Category({name: 'Category_1_1'})]})],
+            isError: false,
+            errorMessage: ''
         };
         
         this.add = this.add.bind(this);
         this.changeCategoryName = this.changeCategoryName.bind(this);
+        this.removeCategory = this.removeCategory.bind(this);
+        
+        this.clearError = () => this.setState({isError: false, errorMessage: ''})
     }
     
-    add() {
-        if (!this.state.categories.hasOwnProperty(this.state.categoryName)) {
+    add(name, callback) {
+        if (!this.state.categories.some(category=> category.name == name)) {
             this.setState({
-                categories: {
-                    ...this.state.categories,
-                    [this.state.categoryName]: {}
-                }
+                categories: this.state.categories.concat(new Category({name}))
+            }, callback)
+        } else {
+            this.setState({
+                isError: true,
+                errorMessage: 'Current category name already exists'
             })
         }
     }
     
-    changeCategoryName(e) {
-        this.setState({categoryName: e.target.value})
+    changeCategoryName(id, name) {
+        this.setState({
+            categories: this.updateName(this.state.categories, id, name)
+        })
+    }
+    
+    removeCategory(id) {
+        this.setState({
+            categories: this.update(this.state.categories, id, ()=> {
+            })
+        })
+    }
+    
+    updateName(categories, id, name) {
+        const mapper = function (categories) {
+            categories.push(this.updateName(name))
+        };
+        return this.update(categories, id, mapper);
+    }
+    
+    update(categories, id, mapper, isUpdated = {value: false}) {
+        if (categories.length == 0) return categories;
+        const next = categories.reduce((cat, category)=> {
+            if (category.id == id) {
+                isUpdated.value = true;
+                mapper.call(category, cat);
+            } else {
+                cat.push(category.updateChildren(this.update(category.children, id, mapper, isUpdated)));
+            }
+            return cat
+        }, []);
+        return isUpdated.value ? next : categories;
     }
     
     render() {
@@ -37,16 +74,19 @@ class Categories extends Component {
                 <section className="editor-area">
                     <Editor
                         placeholder={'Enter category title'}
-                        value={this.state.categoryName}
                         add={this.add}
-                        onChange={this.changeCategoryName}
+                        clearError={this.clearError}
+                        isError={this.state.isError}
+                        errorMessage={this.state.errorMessage}
                     />
                 </section>
                 <section className="categories-tree">
-                    {Object.keys(this.state.categories).map(name=>
+                    {this.state.categories.map(category=>
                         <CategoryItem
-                            key={name}
-                            name={name}
+                            removeCategory={this.removeCategory}
+                            changeCategoryName={this.changeCategoryName}
+                            key={category.id}
+                            category={category}
                         />
                     )}
                 </section>
