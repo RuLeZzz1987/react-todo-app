@@ -15,6 +15,7 @@ class Categories extends Component {
         };
         
         this.add = this.add.bind(this);
+        this.addChild = this.addChild.bind(this);
         this.changeCategoryName = this.changeCategoryName.bind(this);
         this.removeCategory = this.removeCategory.bind(this);
         
@@ -58,6 +59,18 @@ class Categories extends Component {
         })
     }
     
+    addChild(id, name) {
+        this.setState({
+            categories: this.update(
+                this.state.categories,
+                id,
+                function(categories) {
+                    return categories.push(this.addChild(new Category({name})))
+                }
+            )
+        })
+    }
+    
     update(categories, id, mapper, isUpdated = {value: false}) {
         if (categories.length == 0) return categories;
         const next = categories.reduce((cat, category)=> {
@@ -87,6 +100,7 @@ class Categories extends Component {
                 <section className="categories-tree">
                     {this.state.categories.map(category=>
                         <CategoryItem
+                            addChild={this.addChild}
                             removeCategory={this.removeCategory}
                             changeCategoryName={this.changeCategoryName}
                             key={category.id}

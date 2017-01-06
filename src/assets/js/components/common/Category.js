@@ -6,7 +6,8 @@ class Category extends PureComponent {
     static propTypes = {
         category: PropTypes.object.isRequired,
         changeCategoryName: PropTypes.func.isRequired,
-        removeCategory: PropTypes.func.isRequired
+        removeCategory: PropTypes.func.isRequired,
+        addChild: PropTypes.func.isRequired
     };
     
     constructor(props) {
@@ -24,6 +25,16 @@ class Category extends PureComponent {
         this.removeCategory = () => this.props.removeCategory(this.props.category.id);
         this.showFullName = () => this.setState({showFullName: true});
         this.hideFullName = () => this.setState({showFullName: false});
+        this.addChild = () => this.props.addChild(this.props.category.id, this.generateChildName(this.props.category.children, 1))
+    }
+    
+    generateChildName(children, n) {
+        const nextChildName = `${this.props.category.name}_${n}`;
+        return children.some(child=>child.name == nextChildName)
+            ?
+            this.generateChildName(children, n + 1)
+            :
+            nextChildName;
     }
     
     toggleEditMode() {
@@ -44,7 +55,12 @@ class Category extends PureComponent {
     render() {
         return (
             <section>
-                <section className="category">
+                <section
+                    onClick={()=> {
+                        console.log(this.props.category.id)
+                    }}
+                    className="category"
+                >
                     <i
                         style={{visibility: this.props.category.isComplete ? 'visible' : 'hidden'}}
                         className="fa fa-check"
@@ -73,7 +89,9 @@ class Category extends PureComponent {
                         <i className="fa fa-trash"
                            onClick={this.removeCategory}
                         />
-                        <i className="fa fa-plus"/>
+                        <i className="fa fa-plus"
+                           onClick={this.addChild}
+                        />
                     </div>
                     {this.state.showFullName &&
                     <div className="fullname">
@@ -85,6 +103,7 @@ class Category extends PureComponent {
                         .filter(category=>category.type == Constants.CATEGORY)
                         .map(category=><Category
                                 key={category.id}
+                                addChild={this.props.addChild}
                                 category={category}
                                 removeCategory={this.props.removeCategory}
                                 changeCategoryName={this.props.changeCategoryName}
