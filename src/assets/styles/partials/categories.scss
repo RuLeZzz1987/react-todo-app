@@ -1,7 +1,7 @@
 .categories {
   width: 40%;
   overflow: auto;
-  margin-left: 15px;
+
   padding-bottom: 20px;
 
   .editor-area {
@@ -10,6 +10,7 @@
   }
 
   .categories-tree {
+    margin-left: 15px;
 
     .category-children {
       margin-top: 2px;

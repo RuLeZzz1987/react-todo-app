@@ -7,7 +7,8 @@ class Category extends PureComponent {
         category: PropTypes.object.isRequired,
         changeCategoryName: PropTypes.func.isRequired,
         removeCategory: PropTypes.func.isRequired,
-        addChild: PropTypes.func.isRequired
+        addChild: PropTypes.func.isRequired,
+        selectCategory: PropTypes.func.isRequired
     };
     
     constructor(props) {
@@ -25,7 +26,8 @@ class Category extends PureComponent {
         this.removeCategory = () => this.props.removeCategory(this.props.category.id);
         this.showFullName = () => this.setState({showFullName: true});
         this.hideFullName = () => this.setState({showFullName: false});
-        this.addChild = () => this.props.addChild(this.props.category.id, this.generateChildName(this.props.category.children, 1))
+        this.addChild = () => this.props.addChild(this.props.category.id, this.generateChildName(this.props.category.children, 1));
+        this.selectCategory = () => this.props.selectCategory(this.props.category);
     }
     
     generateChildName(children, n) {
@@ -56,9 +58,7 @@ class Category extends PureComponent {
         return (
             <section>
                 <section
-                    onClick={()=> {
-                        console.log(this.props.category.id)
-                    }}
+                    onClick={this.selectCategory}
                     className="category"
                 >
                     <i
@@ -104,6 +104,7 @@ class Category extends PureComponent {
                         .map(category=><Category
                                 key={category.id}
                                 addChild={this.props.addChild}
+                                selectCategory={this.props.selectCategory}
                                 category={category}
                                 removeCategory={this.props.removeCategory}
                                 changeCategoryName={this.props.changeCategoryName}

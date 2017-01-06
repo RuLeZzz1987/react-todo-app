@@ -90,14 +90,14 @@ export class Category {
             this
     }
     
-    removeChildren(id) {
-        if (!this[_children].any(child=>child == id)) return this;
+    replaceChild(nextChild) {
+        if (!this[_children].any(child=>child.id == nextChild.id)) return this;
         
         return new Category({
             name: this[_name],
             id: this[_id],
             createdAt: this[_createdAt],
-            children: this[_children].filter(own=>own.id != id)
+            children: this[_children].map(child=>child.id != nextChild.id ? child : nextChild)
         })
     }
 }

@@ -1,12 +1,21 @@
 .todos {
   width: 60%;
   background-color: red;
-  overflow: auto;
-  margin: 0 15px 0 30px;
+
+  .category-title {
+    font-size: 36px;
+    margin: 30px 15px 30px 60px;
+    height: 70px;
+    display: inline-block;
+  }
 
   .editor-area {
     margin: 30px 15px 30px 0;
     height: 70px;
     float: right;
+  }
+
+  .list {
+    margin: 0 15px 0 60px;
   }
 }

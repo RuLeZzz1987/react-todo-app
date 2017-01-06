@@ -7,7 +7,9 @@ class Categories extends PureComponent {
     
     static propTypes = {
         categories: PropTypes.array.isRequired,
-        updateCategories: PropTypes.func.isRequired
+        updateItems: PropTypes.func.isRequired,
+        selectCategory: PropTypes.func.isRequired,
+        addRootCategory: PropTypes.func.isRequired
     };
     
     constructor(props) {
@@ -28,7 +30,7 @@ class Categories extends PureComponent {
     
     add(name, callback) {
         if (!this.props.categories.some(category=> category.name == name)) {
-            this.props.updateCategories(this.props.categories.concat(new Category({name})), callback)
+            this.props.addRootCategory(new Category({name}), callback)
         } else {
             this.setState({
                 isError: true,
@@ -38,50 +40,33 @@ class Categories extends PureComponent {
     }
     
     changeCategoryName(id, name) {
-        this.props.updateCategories(
-            this.update({
-                categories: this.props.categories,
-                id,
-                mapper: function (categories) {
-                    categories.push(this.updateName(name))
-                }
-            })
-        )
+        this.props.updateItems({
+            id,
+            mapper: function (categories) {
+                const nextCategory = this.updateName(name);
+                categories.push(this.updateName(name));
+                return nextCategory;
+            }
+        })
     }
     
     removeCategory(id) {
-        this.props.updateCategories(this.update({
-                categories: this.props.categories,
-                id,
-                mapper: ()=> {
-                }
-            })
-        )
+        this.props.updateItems({
+            id,
+            mapper: ()=> {
+            }
+        })
     }
     
     addChild(id, name) {
-        this.props.updateCategories(this.update({
-                categories: this.props.categories,
-                id,
-                mapper: function (categories) {
-                    return categories.push(this.addChild(new Category({name})))
-                }
-            })
-        )
-    }
-    
-    update({categories, id, mapper, isUpdated = {value: false}}) {
-        if (categories.length == 0) return categories;
-        const next = categories.reduce((cat, category)=> {
-            if (category.id == id) {
-                isUpdated.value = true;
-                mapper.call(category, cat);
-            } else {
-                cat.push(category.updateChildren(this.update({categories: category.children, id, mapper, isUpdated})));
+        this.props.updateItems({
+            id,
+            mapper: function (categories) {
+                const nextCategory = this.addChild(new Category({name}));
+                categories.push(nextCategory);
+                return nextCategory;
             }
-            return cat
-        }, []);
-        return isUpdated.value ? next : categories;
+        })
     }
     
     render() {
@@ -99,6 +84,7 @@ class Categories extends PureComponent {
                 <section className="categories-tree">
                     {this.props.categories.map(category=>
                         <CategoryItem
+                            selectCategory={this.props.selectCategory}
                             addChild={this.addChild}
                             removeCategory={this.removeCategory}
                             changeCategoryName={this.changeCategoryName}
