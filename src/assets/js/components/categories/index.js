@@ -1,15 +1,19 @@
-import React, { Component } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import Editor from '../common/Editor';
 import CategoryItem from '../common/Category';
 import { Category } from '../../models';
 
-class Categories extends Component {
+class Categories extends PureComponent {
+    
+    static propTypes = {
+        categories: PropTypes.array.isRequired,
+        updateCategories: PropTypes.func.isRequired
+    };
     
     constructor(props) {
         super(props);
         
         this.state = {
-            categories: [new Category({name: 'Category_1', children: [new Category({name: 'Category_1_1'})]})],
             isError: false,
             errorMessage: ''
         };
@@ -23,10 +27,8 @@ class Categories extends Component {
     }
     
     add(name, callback) {
-        if (!this.state.categories.some(category=> category.name == name)) {
-            this.setState({
-                categories: this.state.categories.concat(new Category({name}))
-            }, callback)
+        if (!this.props.categories.some(category=> category.name == name)) {
+            this.props.updateCategories(this.props.categories.concat(new Category({name})), callback)
         } else {
             this.setState({
                 isError: true,
@@ -36,49 +38,46 @@ class Categories extends Component {
     }
     
     changeCategoryName(id, name) {
-        this.setState({
-            categories: this.update(
-                this.state.categories,
+        this.props.updateCategories(
+            this.update({
+                categories: this.props.categories,
                 id,
-                name,
-                function (categories) {
+                mapper: function (categories) {
                     categories.push(this.updateName(name))
                 }
-            )
-        })
+            })
+        )
     }
     
     removeCategory(id) {
-        this.setState({
-            categories: this.update(
-                this.state.categories,
+        this.props.updateCategories(this.update({
+                categories: this.props.categories,
                 id,
-                ()=> {
+                mapper: ()=> {
                 }
-            )
-        })
+            })
+        )
     }
     
     addChild(id, name) {
-        this.setState({
-            categories: this.update(
-                this.state.categories,
+        this.props.updateCategories(this.update({
+                categories: this.props.categories,
                 id,
-                function(categories) {
+                mapper: function (categories) {
                     return categories.push(this.addChild(new Category({name})))
                 }
-            )
-        })
+            })
+        )
     }
     
-    update(categories, id, mapper, isUpdated = {value: false}) {
+    update({categories, id, mapper, isUpdated = {value: false}}) {
         if (categories.length == 0) return categories;
         const next = categories.reduce((cat, category)=> {
             if (category.id == id) {
                 isUpdated.value = true;
                 mapper.call(category, cat);
             } else {
-                cat.push(category.updateChildren(this.update(category.children, id, mapper, isUpdated)));
+                cat.push(category.updateChildren(this.update({categories: category.children, id, mapper, isUpdated})));
             }
             return cat
         }, []);
@@ -98,7 +97,7 @@ class Categories extends Component {
                     />
                 </section>
                 <section className="categories-tree">
-                    {this.state.categories.map(category=>
+                    {this.props.categories.map(category=>
                         <CategoryItem
                             addChild={this.addChild}
                             removeCategory={this.removeCategory}

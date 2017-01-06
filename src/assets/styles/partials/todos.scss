@@ -2,4 +2,11 @@
   width: 60%;
   background-color: red;
   overflow: auto;
+  margin: 0 15px 0 30px;
+
+  .editor-area {
+    margin: 30px 15px 30px 0;
+    height: 70px;
+    float: right;
+  }
 }
