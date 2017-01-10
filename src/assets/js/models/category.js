@@ -8,10 +8,11 @@ const _createdAt = Symbol('createdAt');
 const _updatedAt = Symbol('updatedAt');
 const _isComplete = Symbol('isComplete');
 const _type = Symbol('type');
+const _isRoot = Symbol('isRoot');
 
 export class Category {
     
-    constructor({name, id, createdAt, children, isComplete}) {
+    constructor({name, id, createdAt, children, isComplete, isRoot}) {
         this[_name] = name;
         this[_id] = id || uuid.v4();
         this[_createdAt] = createdAt || Date.now();
@@ -19,6 +20,7 @@ export class Category {
         this[_isComplete] = isComplete || false;
         this[_updatedAt] = Date.now();
         this[_type] = Constants.CATEGORY;
+        this[_isRoot] = isRoot || false;
     }
     
     get id() {
@@ -49,12 +51,17 @@ export class Category {
         return this[_type]
     }
     
+    get isRoot() {
+        return this[_isRoot]
+    }
+    
     updateName(name) {
         return name != this[_name] ? new Category({
             name,
             id: this[_id],
             createdAt: this[_createdAt],
-            children: this[_children]
+            children: this[_children],
+            isRoot: this[_isRoot]
         })
             :
             this
@@ -66,7 +73,8 @@ export class Category {
             id: this[_id],
             createdAt: this[_createdAt],
             children: this[_children],
-            isComplete: !this[_isComplete]
+            isComplete: !this[_isComplete],
+            isRoot: this[_isRoot]
         })
     }
     
@@ -75,7 +83,8 @@ export class Category {
             name: this[_name],
             id: this[_id],
             createdAt: this[_createdAt],
-            children: this[_children].concat(child)
+            children: this[_children].concat(child),
+            isRoot: this[_isRoot]
         })
     }
     
@@ -84,7 +93,8 @@ export class Category {
             name: this[_name],
             id: this[_id],
             createdAt: this[_createdAt],
-            children
+            children,
+            isRoot: this[_isRoot]
         })
             :
             this
@@ -97,7 +107,8 @@ export class Category {
             name: this[_name],
             id: this[_id],
             createdAt: this[_createdAt],
-            children: this[_children].map(child=>child.id != nextChild.id ? child : nextChild)
+            children: this[_children].map(child=>child.id != nextChild.id ? child : nextChild),
+            isRoot: this[_isRoot]
         })
     }
 }

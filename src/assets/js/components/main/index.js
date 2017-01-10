@@ -11,11 +11,15 @@ class Main extends PureComponent {
         updateCategories: PropTypes.func.isRequired
     };
     
+    static defaultProps = {
+        categories: []
+    };
+    
     constructor(props) {
         super(props);
         
         this.state = {
-            selectedCategory: undefined
+            selectedCategory: props.categories.find(category=>category.isRoot)
         };
         
         this.selectCategory = category => this.setState({selectedCategory: category});
@@ -33,7 +37,7 @@ class Main extends PureComponent {
     }
     
     update({items, id, mapper, isUpdated = {value: false}}) {
-        if (items.length == 0) return items;
+        if (items.length == 0 || isUpdated.value) return items;
         const either = items.reduce((eitherItems, item)=> {
             if (item.id == id) {
                 isUpdated.value = true;

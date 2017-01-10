@@ -21,7 +21,7 @@ class Header extends Component {
     
     render() {
         return (
-            <header>
+            <header style={{height: '13vh'}}>
                 <section className="header">
                     <h1 className="project-title">
                         To-Do List

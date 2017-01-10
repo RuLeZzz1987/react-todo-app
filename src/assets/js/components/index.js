@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from './header';
 import Main from './main';
-import { Category } from '../models';
+import { Category, Todo } from '../models';
 
 class App extends Component {
     
@@ -9,7 +9,7 @@ class App extends Component {
         super(props);
         
         this.state = {
-            categories: [new Category({name: 'Category_1', children: [new Category({name: 'Category_1_1'})]})]
+            categories: [new Category({name: 'Category_1', isRoot: true, children: [new Todo({name: 'To-Do Item #1'}), new Category({name: 'Category_1_1'})]})]
         };
         
         this.updateCategories = (categories, cb) => this.setState({categories}, cb)

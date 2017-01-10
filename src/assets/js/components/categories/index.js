@@ -30,7 +30,7 @@ class Categories extends PureComponent {
     
     add(name, callback) {
         if (!this.props.categories.some(category=> category.name == name)) {
-            this.props.addRootCategory(new Category({name}), callback)
+            this.props.addRootCategory(new Category({name, isRoot: true}), callback)
         } else {
             this.setState({
                 isError: true,
