@@ -28,14 +28,14 @@ class Todos extends PureComponent {
         
         this.clearError = () => this.setState({isError: false, errorMessage: ''});
         
-        this.add = name => this.props.updateItems({
+        this.add = (name, cb) => this.props.updateItems({
             id: this.props.category.id,
             mapper: function (categories, cb) {
                 const nextItem = this.addChild(new Todo({name}));
                 categories.push(nextItem);
                 return nextItem
             }
-        });
+        }, cb);
     }
     
     render() {

@@ -29,10 +29,10 @@ class Main extends PureComponent {
                 this.selectCategory(category);
                 cb()
             });
-        this.updateItems = props => this.props.updateCategories(this.update({
+        this.updateItems = (props, cb) => this.props.updateCategories(this.update({
                 items: this.props.categories,
                 ...props
-            })
+            }), cb
         );
     }
     
