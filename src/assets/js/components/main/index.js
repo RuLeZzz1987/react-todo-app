@@ -21,7 +21,10 @@ class Main extends PureComponent {
         super(props);
         
         this.state = {
-            selectedCategory: props.categories.find(category=>category.isRoot)
+            selectedCategory: props.categories.find(category=>category.isRoot),
+            isError: false,
+            errorMessage: '',
+            showPopupError: false
         };
         
         this.selectCategory = category => this.setState({selectedCategory: category});
@@ -49,6 +52,8 @@ class Main extends PureComponent {
                     : this.validate({id, type, items: item.children, name})
             });
         
+        this.clearError = () => this.setState({isError: false, errorMessage: '', showPopupError: false})
+        this.setError = (msg, showPopup) => this.setState({isError: true, errorMessage: msg, showPopupError: showPopup});
     }
     
     update({items, id, mapper, isUpdated = {value: false}}) {
@@ -71,6 +76,11 @@ class Main extends PureComponent {
                 className="main"
             >
                 <Categories
+                    setError={this.setError}
+                    clearError={this.clearError}
+                    isError={this.state.isError}
+                    showPopupError={this.state.showPopupError}
+                    errorMessage={this.state.errorMessage}
                     validateName={this.validateName}
                     addRootCategory={this.addRootCategory}
                     categories={this.props.categories}
@@ -78,6 +88,11 @@ class Main extends PureComponent {
                     selectCategory={this.selectCategory}
                 />
                 <Todos
+                    setError={this.setError}
+                    clearError={this.clearError}
+                    isError={this.state.isError}
+                    showPopupError={this.state.showPopupError}
+                    errorMessage={this.state.errorMessage}
                     validateName={this.validateName}
                     category={this.state.selectedCategory}
                     updateItems={this.updateItems}

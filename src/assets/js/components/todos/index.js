@@ -10,6 +10,11 @@ class Todos extends PureComponent {
         category: PropTypes.object,
         updateItems: PropTypes.func.isRequired,
         validateName: PropTypes.func.isRequired,
+        isError: PropTypes.bool.isRequired,
+        showPopupError: PropTypes.bool.isRequired,
+        errorMessage: PropTypes.string.isRequired,
+        clearError: PropTypes.func.isRequired,
+        setError: PropTypes.func.isRequired,
     };
     
     static defaultProps = {
@@ -22,23 +27,22 @@ class Todos extends PureComponent {
     constructor(props) {
         super(props);
         
-        this.state = {
-            isError: false,
-            errorMessage: ''
-        };
-        
-        this.clearError = () => this.setState({isError: false, errorMessage: ''});
-        
         this.validate = this.props.validateName(TODO)(this.props.category.id);
         
-        this.add = (name, cb) => !this.validate(name) && this.props.updateItems({
-            id: this.props.category.id,
-            mapper: function (categories, cb) {
-                const nextItem = this.addChild(new Todo({name}));
-                categories.push(nextItem);
-                return nextItem
+        this.add = (name, cb) => {
+            if (!this.validate(name)) {
+                this.props.updateItems({
+                    id: this.props.category.id,
+                    mapper: function (categories, cb) {
+                        const nextItem = this.addChild(new Todo({name}));
+                        categories.push(nextItem);
+                        return nextItem
+                    }
+                }, cb);
+            } else {
+                this.props.setError('Current To-Do item already exists', false)
             }
-        }, cb);
+        }
     }
     
     render() {
@@ -50,10 +54,11 @@ class Todos extends PureComponent {
                 <section className="editor-area">
                     <Editor
                         placeholder={'Enter TODO title'}
+                        showPopupError={this.props.showPopupError}
                         add={this.add}
-                        clearError={this.clearError}
-                        isError={this.state.isError}
-                        errorMessage={this.state.errorMessage}
+                        clearError={this.props.clearError}
+                        isError={this.props.isError}
+                        errorMessage={this.props.errorMessage}
                     />
                 </section>
                 <section className="list">

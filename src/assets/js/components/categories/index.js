@@ -11,34 +11,29 @@ class Categories extends PureComponent {
         updateItems: PropTypes.func.isRequired,
         selectCategory: PropTypes.func.isRequired,
         addRootCategory: PropTypes.func.isRequired,
-        validateName: PropTypes.func.isRequired
+        validateName: PropTypes.func.isRequired,
+        isError: PropTypes.bool.isRequired,
+        showPopupError: PropTypes.bool.isRequired,
+        errorMessage: PropTypes.string.isRequired,
+        clearError: PropTypes.func.isRequired,
+        setError: PropTypes.func.isRequired,
     };
     
     constructor(props) {
         super(props);
-        
-        this.state = {
-            isError: false,
-            errorMessage: '',
-            showPopupError: false,
-        };
         
         this.add = this.add.bind(this);
         this.addChild = this.addChild.bind(this);
         this.changeCategoryName = this.changeCategoryName.bind(this);
         this.removeCategory = this.removeCategory.bind(this);
         this.validate = this.props.validateName(CATEGORY);
-        this.clearError = () => this.setState({isError: false, errorMessage: ''})
     }
     
     add(name, callback) {
         if (!this.validate(null)(name)) {
             this.props.addRootCategory(new Category({name, isRoot: true}), callback)
         } else {
-            this.setState({
-                isError: true,
-                errorMessage: 'Current category name already exists'
-            })
+            this.props.setError('Current category name already exists', false)
         }
     }
     
@@ -53,9 +48,9 @@ class Categories extends PureComponent {
                 }
             })
         } else {
-            console.log('exists')
+            this.props.setError('Current category name already exists', true)
         }
-            
+        
     }
     
     removeCategory(id) {
@@ -84,10 +79,10 @@ class Categories extends PureComponent {
                     <Editor
                         placeholder={'Enter category title'}
                         add={this.add}
-                        clearError={this.clearError}
-                        showPopupError={this.state.showPopupError}
-                        isError={this.state.isError}
-                        errorMessage={this.state.errorMessage}
+                        clearError={this.props.clearError}
+                        showPopupError={this.props.showPopupError}
+                        isError={this.props.isError}
+                        errorMessage={this.props.errorMessage}
                     />
                 </section>
                 <section className="categories-tree">
