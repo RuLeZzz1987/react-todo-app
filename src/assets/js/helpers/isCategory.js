@@ -1,3 +1,3 @@
-import { Category } from '../models';
+import { CATEGORY } from '../constants';
 
-export const isCategory = (item, mapper) => item instanceof Category ? item.updateChildren(mapper()) : item;
+export const isCategory = (item, mapper) => item.type == CATEGORY ? item.updateChildren(mapper()) : item;

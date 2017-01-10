@@ -2,6 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import Editor from '../common/Editor';
 import CategoryItem from '../common/Category';
 import { Category } from '../../models';
+import { CATEGORY } from '../../constants';
 
 class Categories extends PureComponent {
     
@@ -9,7 +10,8 @@ class Categories extends PureComponent {
         categories: PropTypes.array.isRequired,
         updateItems: PropTypes.func.isRequired,
         selectCategory: PropTypes.func.isRequired,
-        addRootCategory: PropTypes.func.isRequired
+        addRootCategory: PropTypes.func.isRequired,
+        validateName: PropTypes.func.isRequired
     };
     
     constructor(props) {
@@ -17,19 +19,20 @@ class Categories extends PureComponent {
         
         this.state = {
             isError: false,
-            errorMessage: ''
+            errorMessage: '',
+            showPopupError: false,
         };
         
         this.add = this.add.bind(this);
         this.addChild = this.addChild.bind(this);
         this.changeCategoryName = this.changeCategoryName.bind(this);
         this.removeCategory = this.removeCategory.bind(this);
-        
+        this.validate = this.props.validateName(CATEGORY);
         this.clearError = () => this.setState({isError: false, errorMessage: ''})
     }
     
     add(name, callback) {
-        if (!this.props.categories.some(category=> category.name == name)) {
+        if (!this.validate(null)(name)) {
             this.props.addRootCategory(new Category({name, isRoot: true}), callback)
         } else {
             this.setState({
@@ -40,14 +43,19 @@ class Categories extends PureComponent {
     }
     
     changeCategoryName(id, name) {
-        this.props.updateItems({
-            id,
-            mapper: function (categories) {
-                const nextCategory = this.updateName(name);
-                categories.push(this.updateName(name));
-                return nextCategory;
-            }
-        })
+        if (!this.validate(id)(name)) {
+            this.props.updateItems({
+                id,
+                mapper: function (categories) {
+                    const nextCategory = this.updateName(name);
+                    categories.push(this.updateName(name));
+                    return nextCategory;
+                }
+            })
+        } else {
+            console.log('exists')
+        }
+            
     }
     
     removeCategory(id) {
@@ -77,6 +85,7 @@ class Categories extends PureComponent {
                         placeholder={'Enter category title'}
                         add={this.add}
                         clearError={this.clearError}
+                        showPopupError={this.state.showPopupError}
                         isError={this.state.isError}
                         errorMessage={this.state.errorMessage}
                     />

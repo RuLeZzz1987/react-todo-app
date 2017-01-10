@@ -26,15 +26,15 @@ class Category extends PureComponent {
         this.removeCategory = () => this.props.removeCategory(this.props.category.id);
         this.showFullName = () => this.setState({showFullName: true});
         this.hideFullName = () => this.setState({showFullName: false});
-        this.addChild = () => this.props.addChild(this.props.category.id, this.generateChildName(this.props.category.children, 1));
+        this.addChild = () => this.props.addChild(this.props.category.id, this.generateChildName(1));
         this.selectCategory = () => this.props.selectCategory(this.props.category);
     }
     
-    generateChildName(children, n) {
+    generateChildName(n) {
         const nextChildName = `${this.props.category.name}_${n}`;
-        return children.some(child=>child.name == nextChildName)
+        return this.props.category.children.some(child=>child.name == nextChildName)
             ?
-            this.generateChildName(children, n + 1)
+            this.generateChildName(n + 1)
             :
             nextChildName;
     }

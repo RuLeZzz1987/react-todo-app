@@ -8,7 +8,8 @@ class Editor extends Component {
         width: PropTypes.number,
         isError: PropTypes.bool.isRequired,
         errorMessage: PropTypes.string.isRequired,
-        clearError: PropTypes.func.isRequired
+        clearError: PropTypes.func.isRequired,
+        showPopupError: PropTypes.bool.isRequired
     };
     
     constructor(props) {
@@ -40,7 +41,7 @@ class Editor extends Component {
                     placeholder={this.props.placeholder}
                     onChange={this.onChange}
                 />
-                {this.props.isError && <label htmlFor="category">{this.props.errorMessage}</label>}
+                {!this.props.showPopupError && this.props.isError && <label htmlFor="category">{this.props.errorMessage}</label>}
                 <div
                     className="add-button"
                     onClick={this.add}

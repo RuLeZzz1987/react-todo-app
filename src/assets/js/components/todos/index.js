@@ -8,7 +8,8 @@ class Todos extends PureComponent {
     
     static propTypes = {
         category: PropTypes.object,
-        updateItems: PropTypes.func.isRequired
+        updateItems: PropTypes.func.isRequired,
+        validateName: PropTypes.func.isRequired,
     };
     
     static defaultProps = {
@@ -28,7 +29,9 @@ class Todos extends PureComponent {
         
         this.clearError = () => this.setState({isError: false, errorMessage: ''});
         
-        this.add = (name, cb) => this.props.updateItems({
+        this.validate = this.props.validateName(TODO)(this.props.category.id);
+        
+        this.add = (name, cb) => !this.validate(name) && this.props.updateItems({
             id: this.props.category.id,
             mapper: function (categories, cb) {
                 const nextItem = this.addChild(new Todo({name}));
