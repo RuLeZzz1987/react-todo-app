@@ -40,7 +40,11 @@ class Category extends PureComponent {
     }
     
     toggleEditMode() {
-        this.setState({isEditMode: !this.state.isEditMode})
+        this.setState({isEditMode: !this.state.isEditMode}, ()=>{
+            if (this.state.isEditMode) {
+                this.nameInput.focus();
+            }
+        })
     }
     
     editCategoryName(e) {
@@ -67,6 +71,7 @@ class Category extends PureComponent {
                     />
                     {this.state.isEditMode ?
                         <input
+                            ref={el=>{this.nameInput = el}}
                             value={this.state.name}
                             onChange={this.editCategoryName}
                             onBlur={this.changeCategoryName}
