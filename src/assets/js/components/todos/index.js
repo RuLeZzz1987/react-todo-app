@@ -27,11 +27,11 @@ class Todos extends PureComponent {
     constructor(props) {
         super(props);
         
-        this.validate = this.props.validateName(TODO)(this.props.category.id);
+        this.validate = this.props.validateName(TODO);
         this.setError = this.props.setError(TODO);
         
         this.add = (name, cb) => {
-            if (!this.validate(name)) {
+            if (!this.validate(this.props.category.id)(name)) {
                 this.props.updateItems({
                     id: this.props.category.id,
                     mapper: function (categories, cb) {
