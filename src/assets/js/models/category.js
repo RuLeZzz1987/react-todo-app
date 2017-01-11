@@ -1,54 +1,21 @@
-import uuid from 'uuid'
-import * as Constants from '../constants';
+import { CATEGORY } from "../constants";
+import { Entry } from "./entry";
 
-const _id = Symbol('id');
-const _name = Symbol('name');
 const _children = Symbol('children');
-const _createdAt = Symbol('createdAt');
-const _updatedAt = Symbol('updatedAt');
-const _isComplete = Symbol('isComplete');
-const _type = Symbol('type');
 const _isRoot = Symbol('isRoot');
+const isComplete = children => children.every(item => item.isComplete);
 
-export class Category {
+export class Category extends Entry {
     
     constructor({name, id, createdAt, children, isComplete, isRoot}) {
-        this[_name] = name;
-        this[_id] = id || uuid.v4();
-        this[_createdAt] = createdAt || Date.now();
+        super({name, id, createdAt, isComplete, type: CATEGORY});
+        
         this[_children] = children || [];
-        this[_isComplete] = isComplete || false;
-        this[_updatedAt] = Date.now();
-        this[_type] = Constants.CATEGORY;
         this[_isRoot] = isRoot || false;
-    }
-    
-    get id() {
-        return this[_id]
-    }
-    
-    get createdAt() {
-        return this[_createdAt]
-    }
-    
-    get updatedAt() {
-        return this[_updatedAt]
     }
     
     get children() {
         return this[_children]
-    }
-    
-    get name() {
-        return this[_name]
-    }
-    
-    get isComplete() {
-        return this[_isComplete]
-    }
-    
-    get type() {
-        return this[_type]
     }
     
     get isRoot() {
@@ -56,60 +23,43 @@ export class Category {
     }
     
     updateName(name) {
-        return name != this[_name] ? new Category({
-            name,
-            id: this[_id],
-            createdAt: this[_createdAt],
-            children: this[_children],
-            isRoot: this[_isRoot]
-        })
-            :
-            this
-    }
-    
-    toggleIsComplete() {
+        if (name == this.name) return this;
+        
         return new Category({
-            name: this[_name],
-            id: this[_id],
-            createdAt: this[_createdAt],
-            children: this[_children],
-            isComplete: !this[_isComplete],
-            isRoot: this[_isRoot]
+            name,
+            id: this.id,
+            createdAt: this.createdAt,
+            children: this.children,
+            isComplete: this.isComplete,
+            isRoot: this.isRoot
         })
     }
     
     addChild(child) {
+        const children = this[_children].concat(child);
+        
         return new Category({
-            name: this[_name],
-            id: this[_id],
-            createdAt: this[_createdAt],
-            children: this[_children].concat(child),
+            name: this.name,
+            id: this.id,
+            createdAt: this.createdAt,
+            isComplete: isComplete(children),
+            children,
             isRoot: this[_isRoot]
         })
     }
     
     updateChildren(children) {
-        return children != this[_children] ? new Category({
-            name: this[_name],
-            id: this[_id],
-            createdAt: this[_createdAt],
-            children,
-            isRoot: this[_isRoot]
-        })
-            :
-            this
-    }
-    
-    replaceChild(nextChild) {
-        if (!this[_children].any(child=>child.id == nextChild.id)) return this;
+        if (children == this[_children]) return this;
         
         return new Category({
-            name: this[_name],
-            id: this[_id],
-            createdAt: this[_createdAt],
-            children: this[_children].map(child=>child.id != nextChild.id ? child : nextChild),
+            name: this.name,
+            id: this.id,
+            createdAt: this.createdAt,
+            children,
+            isComplete: isComplete(children),
             isRoot: this[_isRoot]
-        })
+        });
     }
+    
 }
 
