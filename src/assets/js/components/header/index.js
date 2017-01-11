@@ -1,17 +1,25 @@
-import React, { Component } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import Checkbox from '../common/CheckBox';
 import SearchBox from '../common/SearchBox';
 import ProgressBar from '../common/ProgressBar';
+import { calcCompletedCount } from '../../helpers/calcCompletedCount';
 
-class Header extends Component {
+class Header extends PureComponent {
+    
+    static propTypes = {
+        categories: PropTypes.array
+    };
     
     constructor(props) {
         super(props);
+    
+        const stats = calcCompletedCount(props.categories);
         
         this.state = {
             showOnlyActive: true,
             search: '',
-            percentage: 25
+            total: stats.total,
+            completed: stats.completed,
         };
         
         this.toggleActive = e => this.setState({showOnlyActive: e.target.checked});
@@ -19,6 +27,11 @@ class Header extends Component {
         this.clearSearch = () => this.setState({search: ''});
     }
     
+    componentWillReceiveProps(nextProps) {
+        const stats = calcCompletedCount(nextProps.categories);
+        this.setState({total: stats.total, completed: stats.completed});
+    }
+        
     render() {
         return (
             <header style={{height: '13vh'}}>
@@ -41,7 +54,8 @@ class Header extends Component {
                     </section>
                 </section>
                 <ProgressBar
-                    now={this.state.percentage}
+                    total={this.state.total}
+                    completed={this.state.completed}
                 />
             </header>
         )
