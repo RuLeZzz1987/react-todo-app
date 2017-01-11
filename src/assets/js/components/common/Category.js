@@ -8,7 +8,8 @@ class Category extends PureComponent {
         changeCategoryName: PropTypes.func.isRequired,
         removeCategory: PropTypes.func.isRequired,
         addChild: PropTypes.func.isRequired,
-        selectCategory: PropTypes.func.isRequired
+        selectCategory: PropTypes.func.isRequired,
+        selectedCategory: PropTypes.object
     };
     
     constructor(props) {
@@ -59,9 +60,12 @@ class Category extends PureComponent {
     }
     
     render() {
+        const isSelected = this.props.selectedCategory && this.props.category.id == this.props.selectedCategory.id;
+        
         return (
             <section>
                 <section
+                    style={{backgroundColor: isSelected ? '#f0f757' : '#fff'}}
                     onClick={this.selectCategory}
                     className="category"
                 >
@@ -109,6 +113,7 @@ class Category extends PureComponent {
                         .map(category=><Category
                                 key={category.id}
                                 addChild={this.props.addChild}
+                                selectedCategory={this.props.selectedCategory}
                                 selectCategory={this.props.selectCategory}
                                 category={category}
                                 removeCategory={this.props.removeCategory}

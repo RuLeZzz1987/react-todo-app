@@ -17,7 +17,7 @@ class Todo extends PureComponent {
         return (
             <article className="todo">
                 <input
-                    onClick={this.toggle}
+                    onChange={this.toggle}
                     type="checkbox"
                     checked={this.props.todo.isComplete}
                 />

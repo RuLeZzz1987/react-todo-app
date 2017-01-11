@@ -87,6 +87,7 @@ class Main extends PureComponent {
                     onClose={this.clearError}
                 />
                 <Categories
+                    selectedCategory={this.state.selectedCategory}
                     errorType={this.state.errorType}
                     setError={this.setError}
                     clearError={this.clearError}

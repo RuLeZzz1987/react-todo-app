@@ -17,6 +17,7 @@ class Categories extends PureComponent {
         errorMessage: PropTypes.string.isRequired,
         clearError: PropTypes.func.isRequired,
         setError: PropTypes.func.isRequired,
+        selectedCategory: PropTypes.object,
     };
     
     constructor(props) {
@@ -91,6 +92,7 @@ class Categories extends PureComponent {
                 <section className="categories-tree">
                     {this.props.categories.map(category=>
                         <CategoryItem
+                            selectedCategory={this.props.selectedCategory}
                             selectCategory={this.props.selectCategory}
                             addChild={this.addChild}
                             removeCategory={this.removeCategory}
