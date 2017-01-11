@@ -20,7 +20,7 @@ class Todos extends PureComponent {
     static defaultProps = {
         category: {
             name: 'default',
-            children: [new Todo({name: 'To-Do Item #1'})]
+            children: []
         }
     };
     
@@ -43,7 +43,16 @@ class Todos extends PureComponent {
             } else {
                 this.setError('Current To-Do item already exists', false)
             }
-        }
+        };
+        
+        this.toggleTodo = id => this.props.updateItems({
+            id: this.props.category.id,
+            mapper: function(categories) {
+                const nextItem = this.updateChildren(this.children.map(item=>item.id == id ? item.toggleIsComplete() : item));
+                categories.push(nextItem);
+                return nextItem;
+            }
+        })
     }
     
     render() {
@@ -69,6 +78,7 @@ class Todos extends PureComponent {
                         .filter(child=>child.type == TODO)
                         .map(todo=>
                             <TodoItem
+                                toggle={this.toggleTodo}
                                 key={todo.id}
                                 todo={todo}
                             />

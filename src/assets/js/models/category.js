@@ -3,12 +3,12 @@ import { Entry } from "./entry";
 
 const _children = Symbol('children');
 const _isRoot = Symbol('isRoot');
-const isComplete = children => children.every(item => item.isComplete);
+const isComplete = children => children ? children.every(item => item.isComplete) : true;
 
 export class Category extends Entry {
     
-    constructor({name, id, createdAt, children, isComplete, isRoot}) {
-        super({name, id, createdAt, isComplete, type: CATEGORY});
+    constructor({name, id, createdAt, children, isRoot}) {
+        super({name, id, createdAt, isComplete: isComplete(children), type: CATEGORY});
         
         this[_children] = children || [];
         this[_isRoot] = isRoot || false;
@@ -30,7 +30,6 @@ export class Category extends Entry {
             id: this.id,
             createdAt: this.createdAt,
             children: this.children,
-            isComplete: this.isComplete,
             isRoot: this.isRoot
         })
     }
@@ -42,7 +41,6 @@ export class Category extends Entry {
             name: this.name,
             id: this.id,
             createdAt: this.createdAt,
-            isComplete: isComplete(children),
             children,
             isRoot: this[_isRoot]
         })
@@ -56,7 +54,6 @@ export class Category extends Entry {
             id: this.id,
             createdAt: this.createdAt,
             children,
-            isComplete: isComplete(children),
             isRoot: this[_isRoot]
         });
     }
