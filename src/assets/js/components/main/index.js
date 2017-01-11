@@ -4,7 +4,7 @@ import Todos from "../todos";
 import { isCategory } from "../../helpers/isCategory";
 import { TODO } from '../../constants';
 import { isNameExists } from '../../helpers/isNameExists';
-
+import Modal from '../common/Modal';
 
 class Main extends PureComponent {
     
@@ -23,6 +23,7 @@ class Main extends PureComponent {
         this.state = {
             selectedCategory: props.categories.find(category=>category.isRoot),
             isError: false,
+            errorType: null,
             errorMessage: '',
             showPopupError: false
         };
@@ -52,8 +53,13 @@ class Main extends PureComponent {
                     : this.validate({id, type, items: item.children, name})
             });
         
-        this.clearError = () => this.setState({isError: false, errorMessage: '', showPopupError: false})
-        this.setError = (msg, showPopup) => this.setState({isError: true, errorMessage: msg, showPopupError: showPopup});
+        this.clearError = () => this.setState({isError: false, errorMessage: '', showPopupError: false});
+        this.setError = type => (msg, showPopup) => this.setState({
+            isError: true,
+            errorMessage: msg,
+            showPopupError: showPopup,
+            errorType: type
+        });
     }
     
     update({items, id, mapper, isUpdated = {value: false}}) {
@@ -75,7 +81,13 @@ class Main extends PureComponent {
             <main
                 className="main"
             >
+                <Modal
+                    show={this.state.showPopupError}
+                    message={this.state.errorMessage}
+                    onClose={this.clearError}
+                />
                 <Categories
+                    errorType={this.state.errorType}
                     setError={this.setError}
                     clearError={this.clearError}
                     isError={this.state.isError}
@@ -88,6 +100,7 @@ class Main extends PureComponent {
                     selectCategory={this.selectCategory}
                 />
                 <Todos
+                    errorType={this.state.errorType}
                     setError={this.setError}
                     clearError={this.clearError}
                     isError={this.state.isError}

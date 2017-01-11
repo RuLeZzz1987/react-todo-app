@@ -9,7 +9,7 @@ export default  webpackMerge(commonConfig, {
     devtool: 'inline-source-map',
     entry: {
         bundle: [
-            'webpack-dev-server/client?http://localhost:8080/',
+            'webpack-dev-server/client?http://localhost:8880/',
             'webpack/hot/dev-server',
             './src/assets/js'
         ]

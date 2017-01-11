@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { TODO, CATEGORY } from '../../constants';
 
 class Editor extends Component {
     
@@ -9,7 +10,9 @@ class Editor extends Component {
         isError: PropTypes.bool.isRequired,
         errorMessage: PropTypes.string.isRequired,
         clearError: PropTypes.func.isRequired,
-        showPopupError: PropTypes.bool.isRequired
+        showPopupError: PropTypes.bool.isRequired,
+        errorType: PropTypes.oneOf([CATEGORY, TODO]),
+        type: PropTypes.oneOf([CATEGORY, TODO]),
     };
     
     constructor(props) {
@@ -30,6 +33,8 @@ class Editor extends Component {
     }
     
     render() {
+        const showError = this.props.errorType == this.props.type && !this.props.showPopupError && this.props.isError;
+        
         return (
             <Container
                 width={this.props.width}
@@ -41,7 +46,7 @@ class Editor extends Component {
                     placeholder={this.props.placeholder}
                     onChange={this.onChange}
                 />
-                {!this.props.showPopupError && this.props.isError && <label htmlFor="category">{this.props.errorMessage}</label>}
+                {showError && <label htmlFor="category">{this.props.errorMessage}</label>}
                 <div
                     className="add-button"
                     onClick={this.add}

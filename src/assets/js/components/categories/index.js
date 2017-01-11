@@ -2,7 +2,7 @@ import React, { PureComponent, PropTypes } from 'react';
 import Editor from '../common/Editor';
 import CategoryItem from '../common/Category';
 import { Category } from '../../models';
-import { CATEGORY } from '../../constants';
+import { CATEGORY, TODO } from '../../constants';
 
 class Categories extends PureComponent {
     
@@ -27,13 +27,14 @@ class Categories extends PureComponent {
         this.changeCategoryName = this.changeCategoryName.bind(this);
         this.removeCategory = this.removeCategory.bind(this);
         this.validate = this.props.validateName(CATEGORY);
+        this.setError = this.props.setError(CATEGORY);
     }
     
     add(name, callback) {
         if (!this.validate(null)(name)) {
             this.props.addRootCategory(new Category({name, isRoot: true}), callback)
         } else {
-            this.props.setError('Current category name already exists', false)
+            this.setError('Current category name already exists', false)
         }
     }
     
@@ -48,7 +49,7 @@ class Categories extends PureComponent {
                 }
             })
         } else {
-            this.props.setError('Current category name already exists', true)
+            this.setError('Current category name already exists', true)
         }
         
     }
@@ -77,6 +78,8 @@ class Categories extends PureComponent {
             <aside className="categories">
                 <section className="editor-area">
                     <Editor
+                        type={CATEGORY}
+                        errorType={this.props.errorType}
                         placeholder={'Enter category title'}
                         add={this.add}
                         clearError={this.props.clearError}

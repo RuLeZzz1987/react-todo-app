@@ -28,6 +28,7 @@ class Todos extends PureComponent {
         super(props);
         
         this.validate = this.props.validateName(TODO)(this.props.category.id);
+        this.setError = this.props.setError(TODO);
         
         this.add = (name, cb) => {
             if (!this.validate(name)) {
@@ -40,7 +41,7 @@ class Todos extends PureComponent {
                     }
                 }, cb);
             } else {
-                this.props.setError('Current To-Do item already exists', false)
+                this.setError('Current To-Do item already exists', false)
             }
         }
     }
@@ -53,6 +54,8 @@ class Todos extends PureComponent {
                 </h2>
                 <section className="editor-area">
                     <Editor
+                        type={TODO}
+                        errorType={this.props.errorType}
                         placeholder={'Enter TODO title'}
                         showPopupError={this.props.showPopupError}
                         add={this.add}
