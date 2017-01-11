@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from 'react';
-import * as Constants from '../../constants';
+import { CATEGORY } from '../../constants';
 
 class Category extends PureComponent {
     
@@ -18,7 +18,8 @@ class Category extends PureComponent {
         this.state = {
             isEditMode: false,
             name: props.category.name,
-            showFullName: false
+            showFullName: false,
+            isExpanded: true
         };
         
         this.toggleEditMode = this.toggleEditMode.bind(this);
@@ -29,6 +30,7 @@ class Category extends PureComponent {
         this.hideFullName = () => this.setState({showFullName: false});
         this.addChild = () => this.props.addChild(this.props.category.id, this.generateChildName(1));
         this.selectCategory = () => this.props.selectCategory(this.props.category);
+        this.toggleExpanded = () => this.setState({isExpanded: !this.state.isExpanded});
     }
     
     generateChildName(n) {
@@ -61,6 +63,9 @@ class Category extends PureComponent {
     
     render() {
         const isSelected = this.props.selectedCategory && this.props.category.id == this.props.selectedCategory.id;
+        const expandedClassName = this.state.isExpanded ? 'fa fa-minus' : 'fa fa-plus';
+        const showExpandedBtn = this.props.category.children.filter(el => el.type == CATEGORY).length > 0;
+        const childrenExpandedClassName = this.state.isExpanded ? 'category-children' : 'category-children hide';
         
         return (
             <section>
@@ -69,6 +74,11 @@ class Category extends PureComponent {
                     onClick={this.selectCategory}
                     className="category"
                 >
+                    <i
+                        style={{visibility: showExpandedBtn ? 'visible' : 'hidden'}}
+                        className={expandedClassName}
+                        onClick={this.toggleExpanded}
+                    />
                     <i
                         style={{visibility: this.props.category.isComplete ? 'visible' : 'hidden'}}
                         className="fa fa-check"
@@ -107,9 +117,9 @@ class Category extends PureComponent {
                         {this.props.category.name}
                     </div>}
                 </section>
-                <section className="category-children">
+                <section className={childrenExpandedClassName}>
                     {this.props.category.children
-                        .filter(category=>category.type == Constants.CATEGORY)
+                        .filter(category=>category.type == CATEGORY)
                         .map(category=><Category
                                 key={category.id}
                                 addChild={this.props.addChild}

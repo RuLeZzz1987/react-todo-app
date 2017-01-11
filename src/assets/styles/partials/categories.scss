@@ -15,8 +15,16 @@
     margin-left: 15px;
 
     .category-children {
+      overflow: hidden;
       margin-top: 2px;
       margin-left: 40px;
+      max-height: 1000px;
+      transition: max-height ease-out 0.5s;
+
+      &.hide {
+        max-height: 0;
+        transition-timing-function: ease-in;
+      }
     }
 
   }
