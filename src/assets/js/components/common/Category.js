@@ -9,7 +9,8 @@ class Category extends PureComponent {
         removeCategory: PropTypes.func.isRequired,
         addChild: PropTypes.func.isRequired,
         selectCategory: PropTypes.func.isRequired,
-        selectedCategory: PropTypes.object
+        selectedCategory: PropTypes.object,
+        showDone: PropTypes.bool.isRequired,
     };
     
     constructor(props) {
@@ -119,9 +120,11 @@ class Category extends PureComponent {
                 </section>
                 <section className={childrenExpandedClassName}>
                     {this.props.category.children
-                        .filter(category=>category.type == CATEGORY)
+                        .filter(category=>category.type == CATEGORY && (this.props.showDone ? true : !category.isComplete))
+                        .reverse()
                         .map(category=><Category
                                 key={category.id}
+                                showDone={this.props.showDone}
                                 addChild={this.props.addChild}
                                 selectedCategory={this.props.selectedCategory}
                                 selectCategory={this.props.selectCategory}

@@ -7,7 +7,8 @@ import { calcCompletedCount } from '../../helpers/calcCompletedCount';
 class Header extends PureComponent {
     
     static propTypes = {
-        categories: PropTypes.array
+        categories: PropTypes.array,
+        toggleShowDone: PropTypes.func.isRequired
     };
     
     constructor(props) {
@@ -16,13 +17,11 @@ class Header extends PureComponent {
         const stats = calcCompletedCount(props.categories);
         
         this.state = {
-            showOnlyActive: true,
             search: '',
             total: stats.total,
             completed: stats.completed,
         };
         
-        this.toggleActive = e => this.setState({showOnlyActive: e.target.checked});
         this.changeSearch = e => this.setState({search: e.target.value});
         this.clearSearch = () => this.setState({search: ''});
     }
@@ -41,9 +40,9 @@ class Header extends PureComponent {
                     </h1>
                     <section className="filter-controls">
                         <Checkbox
-                            onChange={this.toggleActive}
-                            checked={this.state.showOnlyActive}
-                            label={'Show active'}
+                            onChange={this.props.toggleShowDone}
+                            checked={this.props.showDone}
+                            label={'Show done'}
                         />
                         <SearchBox
                             clear={this.clearSearch}

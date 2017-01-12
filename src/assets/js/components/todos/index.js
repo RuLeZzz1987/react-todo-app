@@ -15,6 +15,7 @@ class Todos extends PureComponent {
         errorMessage: PropTypes.string.isRequired,
         clearError: PropTypes.func.isRequired,
         setError: PropTypes.func.isRequired,
+        showDone: PropTypes.bool.isRequired,
     };
     
     static defaultProps = {
@@ -75,7 +76,7 @@ class Todos extends PureComponent {
                 </section>
                 <section className="list">
                     {this.props.category.children
-                        .filter(child=>child.type == TODO)
+                        .filter(child=>child.type == TODO && (this.props.showDone ? true : !child.isComplete))
                         .map(todo=>
                             <TodoItem
                                 toggle={this.toggleTodo}

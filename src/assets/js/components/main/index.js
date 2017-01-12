@@ -1,16 +1,18 @@
 import React, { PureComponent, PropTypes } from "react";
 import Categories from "../categories";
 import Todos from "../todos";
-import { isCategory } from "../../helpers/isCategory";
-import { TODO } from '../../constants';
-import { isNameExists } from '../../helpers/isNameExists';
-import Modal from '../common/Modal';
+import { TODO } from "../../constants";
+import { isNameExists } from "../../helpers/isNameExists";
+import Modal from "../common/Modal";
+import { update } from "../../helpers/recursiveUpdate";
+
 
 class Main extends PureComponent {
     
     static propTypes = {
         categories: PropTypes.array.isRequired,
-        updateCategories: PropTypes.func.isRequired
+        updateCategories: PropTypes.func.isRequired,
+        showDone: PropTypes.bool.isRequired,
     };
     
     static defaultProps = {
@@ -35,9 +37,10 @@ class Main extends PureComponent {
                 this.selectCategory(category);
                 cb()
             });
-        this.updateItems = (props, cb) => this.props.updateCategories(this.update({
+        this.updateItems = (props, cb) => this.props.updateCategories(update({
                 items: this.props.categories,
-                ...props
+                ...props,
+                hook: mapped => this.setState({selectedCategory: mapped()})
             }), cb
         );
         
@@ -62,20 +65,6 @@ class Main extends PureComponent {
         });
     }
     
-    update({items, id, mapper, isUpdated = {value: false}}) {
-        if (items.length == 0 || isUpdated.value) return items;
-        const either = items.reduce((eitherItems, item)=> {
-            if (item.id == id) {
-                isUpdated.value = true;
-                this.setState({selectedCategory: mapper.call(item, eitherItems)})
-            } else {
-                eitherItems.push(isCategory(item, ()=>this.update({items: item.children, id, mapper, isUpdated})));
-            }
-            return eitherItems
-        }, []);
-        return isUpdated.value ? either : items;
-    }
-    
     render() {
         return (
             <main
@@ -87,6 +76,7 @@ class Main extends PureComponent {
                     onClose={this.clearError}
                 />
                 <Categories
+                    showDone={this.props.showDone}
                     selectedCategory={this.state.selectedCategory}
                     errorType={this.state.errorType}
                     setError={this.setError}
@@ -101,6 +91,7 @@ class Main extends PureComponent {
                     selectCategory={this.selectCategory}
                 />
                 <Todos
+                    showDone={this.props.showDone}
                     errorType={this.state.errorType}
                     setError={this.setError}
                     clearError={this.clearError}

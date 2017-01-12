@@ -19,7 +19,7 @@ class Todo extends PureComponent {
                 <input
                     onChange={this.toggle}
                     type="checkbox"
-                    checked={this.props.todo.isComplete}
+                    defaultChecked={this.props.todo.isComplete}
                 />
                 <h3 className="name">{this.props.todo.name}</h3>
                 <i className="fa fa-edit"/>
