@@ -1,0 +1,1 @@
+export default name => /^(.+)?(\w|\d)(.+)?$/g.test(name);

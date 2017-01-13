@@ -22,7 +22,7 @@ class Editor extends Component {
             name: ''
         };
         
-        this.add = () => this.props.add(this.state.name, this.clearName);
+        this.add = () => this.props.add(this.state.name.trim(), this.clearName);
         this.onChange = e => {
             if (this.props.isError) {
                 this.props.clearError();

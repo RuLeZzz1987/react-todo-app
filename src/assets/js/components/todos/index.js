@@ -3,6 +3,7 @@ import Editor from '../common/Editor';
 import { TODO } from '../../constants';
 import TodoItem from '../common/Todo';
 import { Todo } from '../../models';
+import isAlphaNumeric from '../../helpers/isAlphaNumeric';
 
 class Todos extends PureComponent {
     
@@ -32,6 +33,7 @@ class Todos extends PureComponent {
         this.setError = this.props.setError(TODO);
         
         this.add = (name, cb) => {
+            if (!isAlphaNumeric(name)) return this.setError('To-Do item name should contains at least one alphanumeric char', false);
             if (!this.validate(this.props.category.id)(name)) {
                 this.props.updateItems({
                     id: this.props.category.id,

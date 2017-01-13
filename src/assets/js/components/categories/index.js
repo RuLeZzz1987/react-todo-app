@@ -3,6 +3,7 @@ import Editor from '../common/Editor';
 import CategoryItem from '../common/Category';
 import { Category } from '../../models';
 import { CATEGORY, TODO } from '../../constants';
+import isAlphaNumeric from '../../helpers/isAlphaNumeric';
 
 class Categories extends PureComponent {
     
@@ -33,6 +34,7 @@ class Categories extends PureComponent {
     }
     
     add(name, callback) {
+        if (!isAlphaNumeric(name)) return this.setError('Category name should contains at least 1 alphanumeric char', false);
         if (!this.validate(null)(name)) {
             this.props.addRootCategory(new Category({name, isRoot: true}), callback)
         } else {
@@ -41,6 +43,7 @@ class Categories extends PureComponent {
     }
     
     changeCategoryName(id, name) {
+        if (name.trim().length == 0) return this.setError('Category name should contains at least 1 alphanumeric char', true);
         if (!this.validate(id)(name)) {
             this.props.updateItems({
                 id,
