@@ -6,10 +6,13 @@ const config = require("./webpack.config.js");
 
 const compiler = webpack(config);
 const server = new WebpackDevServer(compiler, {
-    //hot: true,
-    quiet: false,
-    noInfo: false,
-    color: true,
-    clientLogLevel: 'warning'
+  //hot: true,
+  quiet: false,
+  noInfo: false,
+  color: true,
+  clientLogLevel: 'warning',
+  historyApiFallback: {
+    index: '/'
+  }
 });
 server.listen(8880);
