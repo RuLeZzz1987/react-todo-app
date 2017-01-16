@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { TODO, CATEGORY } from '../../constants';
+import { Exception } from '../../helpers/PropTypes';
 
 class Editor extends Component {
     
@@ -7,11 +8,8 @@ class Editor extends Component {
         add: PropTypes.func.isRequired,
         placeholder: PropTypes.string,
         width: PropTypes.number,
-        isError: PropTypes.bool.isRequired,
-        errorMessage: PropTypes.string.isRequired,
         clearError: PropTypes.func.isRequired,
-        showPopupError: PropTypes.bool.isRequired,
-        errorType: PropTypes.oneOf([CATEGORY, TODO]),
+        error: Exception,
         type: PropTypes.oneOf([CATEGORY, TODO]),
     };
     
@@ -24,7 +22,7 @@ class Editor extends Component {
         
         this.add = () => this.props.add(this.state.name.trim(), this.clearName);
         this.onChange = e => {
-            if (this.props.isError) {
+            if (this.props.error) {
                 this.props.clearError();
             }
             this.setState({name: e.target.value});
@@ -33,7 +31,7 @@ class Editor extends Component {
     }
     
     render() {
-        const showError = this.props.errorType == this.props.type && !this.props.showPopupError && this.props.isError;
+        const showError = this.props.error && this.props.error.type == this.props.type && !this.props.error.popup;
         
         return (
             <Container
@@ -46,7 +44,7 @@ class Editor extends Component {
                     placeholder={this.props.placeholder}
                     onChange={this.onChange}
                 />
-                {showError && <label htmlFor="category">{this.props.errorMessage}</label>}
+                {showError && <label htmlFor="category">{this.props.error.message}</label>}
                 <div
                     className="add-button"
                     onClick={this.add}

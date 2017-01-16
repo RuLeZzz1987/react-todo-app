@@ -4,6 +4,7 @@ import CategoryItem from '../common/Category';
 import { Category } from '../../models';
 import { CATEGORY, TODO } from '../../constants';
 import isAlphaNumeric from '../../helpers/isAlphaNumeric';
+import { Exception } from '../../helpers/PropTypes';
 
 class Categories extends PureComponent {
     
@@ -13,9 +14,7 @@ class Categories extends PureComponent {
         selectCategory: PropTypes.func.isRequired,
         addRootCategory: PropTypes.func.isRequired,
         validateName: PropTypes.func.isRequired,
-        isError: PropTypes.bool.isRequired,
-        showPopupError: PropTypes.bool.isRequired,
-        errorMessage: PropTypes.string.isRequired,
+        error: Exception,
         clearError: PropTypes.func.isRequired,
         setError: PropTypes.func.isRequired,
         selectedCategory: PropTypes.object,
@@ -83,6 +82,7 @@ class Categories extends PureComponent {
             <aside className="categories">
                 <section className="editor-area">
                     <Editor
+                        error={this.props.error}
                         type={CATEGORY}
                         errorType={this.props.errorType}
                         placeholder={'Enter category title'}

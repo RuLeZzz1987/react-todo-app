@@ -29,6 +29,7 @@ class App extends Component {
                     toggleShowDone={this.toggleShowDone}
                 />
                 <Main
+                    todos={this.props.todos}
                     showDone={this.state.showDone}
                     categories={this.state.filteredCategories}
                     updateCategories={this.updateCategories}

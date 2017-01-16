@@ -4,26 +4,19 @@ import { TODO } from '../../constants';
 import TodoItem from '../common/Todo';
 import { Todo } from '../../models';
 import isAlphaNumeric from '../../helpers/isAlphaNumeric';
+import { RightSideSection } from '../common/Wrappers';
+import { Exception } from '../../helpers/PropTypes';
 
 class Todos extends PureComponent {
     
     static propTypes = {
         category: PropTypes.object,
-        updateItems: PropTypes.func.isRequired,
-        validateName: PropTypes.func.isRequired,
-        isError: PropTypes.bool.isRequired,
-        showPopupError: PropTypes.bool.isRequired,
-        errorMessage: PropTypes.string.isRequired,
-        clearError: PropTypes.func.isRequired,
-        setError: PropTypes.func.isRequired,
-        showDone: PropTypes.bool.isRequired,
-    };
-    
-    static defaultProps = {
-        category: {
-            name: 'default',
-            children: []
-        }
+        updateItems: PropTypes.func,
+        validateName: PropTypes.func,
+        error: Exception,
+        clearError: PropTypes.func,
+        setError: PropTypes.func,
+        showDone: PropTypes.bool,
     };
     
     constructor(props) {
@@ -59,25 +52,24 @@ class Todos extends PureComponent {
     }
     
     render() {
+        if (!this.props.category) return (<RightSideSection/>);
+        
         return (
-            <section className="todos">
+            <RightSideSection>
                 <h2 className="category-title">
-                    {this.props.category.name}
+                    {this.props.category && this.props.category.name}
                 </h2>
                 <section className="editor-area">
                     <Editor
+                        error={this.props.error}
                         type={TODO}
-                        errorType={this.props.errorType}
                         placeholder={'Enter TODO title'}
-                        showPopupError={this.props.showPopupError}
                         add={this.add}
                         clearError={this.props.clearError}
-                        isError={this.props.isError}
-                        errorMessage={this.props.errorMessage}
                     />
                 </section>
                 <section className="list">
-                    {this.props.category.children
+                    {this.props.category && this.props.category.children
                         .filter(child=>child.type == TODO && (this.props.showDone ? true : !child.isComplete))
                         .map(todo=>
                             <TodoItem
@@ -87,9 +79,11 @@ class Todos extends PureComponent {
                             />
                         )}
                 </section>
-            </section>
+            </RightSideSection>
         )
     }
 }
+
+
 
 export default Todos
