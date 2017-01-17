@@ -11,7 +11,7 @@ export class Todo extends Entry {
         this[_description] = description || '';
     }
     
-    get desticption() {
+    get description() {
         return this[_description]
     }
     
