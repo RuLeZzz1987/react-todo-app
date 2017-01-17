@@ -11,7 +11,6 @@ class Categories extends PureComponent {
     static propTypes = {
         categories: PropTypes.array.isRequired,
         updateItems: PropTypes.func.isRequired,
-        selectCategory: PropTypes.func.isRequired,
         addRootCategory: PropTypes.func.isRequired,
         validateName: PropTypes.func.isRequired,
         error: Exception,

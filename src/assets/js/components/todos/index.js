@@ -88,7 +88,7 @@ import { findCategory } from '../../helpers/findCategory';
 
 const injectCategory = ComposedComponent => class extends PureComponent {
     render() {
-        const category = findCategory(this.props.categories, this.props.params.id);
+        const category = findCategory(this.props.categories, this.props.params.categoryId);
         return (
           <ComposedComponent
             {...this.props}

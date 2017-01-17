@@ -61,7 +61,7 @@ class Main extends PureComponent {
         <Categories
           error={this.state.error}
           showDone={this.props.showDone}
-          selectedCategory={this.props.params.id}
+          selectedCategory={this.props.params.categoryId}
           setError={this.setError}
           clearError={this.clearError}
           validateName={this.validateName}

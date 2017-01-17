@@ -6,8 +6,8 @@ import Editor from './components/todo-editor';
 
 export default (
   <Route path="/" component={App}>
-    <Route path=":id" components={{todos: Todos}}>
-      <Route path=":id" components={{editor: Editor}}/>
+    <Route path=":categoryId" components={{todos: Todos}}>
+      <Route path=":todoId" components={{editor: Editor}}/>
     </Route>
   </Route>
 )
