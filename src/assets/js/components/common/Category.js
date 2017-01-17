@@ -9,7 +9,7 @@ class Category extends PureComponent {
     changeCategoryName: PropTypes.func.isRequired,
     removeCategory: PropTypes.func.isRequired,
     addChild: PropTypes.func.isRequired,
-    selectedCategory: PropTypes.string.isRequired,
+    selectedCategory: PropTypes.string,
     showDone: PropTypes.bool.isRequired,
   };
 

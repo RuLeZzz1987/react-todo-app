@@ -16,7 +16,7 @@ class Categories extends PureComponent {
         error: Exception,
         clearError: PropTypes.func.isRequired,
         setError: PropTypes.func.isRequired,
-        selectedCategory: PropTypes.string.isRequired,
+        selectedCategory: PropTypes.string,
         showDone: PropTypes.bool.isRequired,
     };
     
@@ -96,7 +96,6 @@ class Categories extends PureComponent {
                         <CategoryItem
                             showDone={this.props.showDone}
                             selectedCategory={this.props.selectedCategory}
-                            selectCategory={this.props.selectCategory}
                             addChild={this.addChild}
                             removeCategory={this.removeCategory}
                             changeCategoryName={this.changeCategoryName}

@@ -22,7 +22,7 @@ class TodoEditor extends Component {
     this.state = {};
 
     this.toggleComplete = e => this.setState({isComplete: !this.state.isComplete});
-    this.change = e => this.setState({[e.target.name]: e.target.value}, ()=>console.log(this.state));
+    this.change = e => this.setState({[e.target.name]: e.target.value});
 
     const updater = () => new Todo({
       name: this.state.name,
