@@ -17,7 +17,7 @@ class Categories extends PureComponent {
         error: Exception,
         clearError: PropTypes.func.isRequired,
         setError: PropTypes.func.isRequired,
-        selectedCategory: PropTypes.object,
+        selectedCategory: PropTypes.string.isRequired,
         showDone: PropTypes.bool.isRequired,
     };
     
@@ -84,13 +84,10 @@ class Categories extends PureComponent {
                     <Editor
                         error={this.props.error}
                         type={CATEGORY}
-                        errorType={this.props.errorType}
                         placeholder={'Enter category title'}
                         add={this.add}
                         clearError={this.props.clearError}
-                        showPopupError={this.props.showPopupError}
                         isError={this.props.isError}
-                        errorMessage={this.props.errorMessage}
                     />
                 </section>
                 <section className="categories-tree">

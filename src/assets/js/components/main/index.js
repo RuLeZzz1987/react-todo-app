@@ -4,7 +4,7 @@ import { TODO } from "../../constants";
 import { isNameExists } from "../../helpers/isNameExists";
 import ModalError from "../common/ModalError";
 import { update } from "../../helpers/recursiveUpdate";
-
+import { RightSideSection } from '../common/Wrappers';
 
 class Main extends PureComponent {
 
@@ -23,21 +23,13 @@ class Main extends PureComponent {
     super(props);
 
     this.state = {
-      selectedCategory: undefined, //props.categories.find(category=>category.isRoot),
       error: undefined,
     };
 
-    this.selectCategory = category => this.setState({selectedCategory: category});
-
-    this.addRootCategory = (category, cb) => this.props.updateCategories(this.props.categories.concat(category),
-      () => {
-        this.selectCategory(category);
-        cb()
-      });
+    this.addRootCategory = (category, cb) => this.props.updateCategories(this.props.categories.concat(category), cb);
     this.updateItems = (props, cb) => this.props.updateCategories(update({
         items: this.props.categories,
         ...props,
-        hook: mapped => this.selectCategory(mapped())
       }), cb
     );
 
@@ -69,24 +61,25 @@ class Main extends PureComponent {
         <Categories
           error={this.state.error}
           showDone={this.props.showDone}
-          selectedCategory={this.state.selectedCategory}
+          selectedCategory={this.props.params.id}
           setError={this.setError}
           clearError={this.clearError}
           validateName={this.validateName}
           addRootCategory={this.addRootCategory}
           categories={this.props.categories}
           updateItems={this.updateItems}
-          selectCategory={this.selectCategory}
         />
-        {this.props.todos && React.cloneElement(this.props.todos, {
-          error: this.state.error,
-          showDone: this.props.showDone,
-          setError: this.setError,
-          clearError: this.clearError,
-          validateName: this.validateName,
-          category: this.state.selectedCategory,
-          updateItems: this.updateItems,
-        })}
+        <RightSideSection>
+          {this.props.todos && React.cloneElement(this.props.todos, {
+            error: this.state.error,
+            showDone: this.props.showDone,
+            setError: this.setError,
+            clearError: this.clearError,
+            validateName: this.validateName,
+            categories: this.props.categories,
+            updateItems: this.updateItems,
+          })}
+        </RightSideSection>
       </main>
     )
   }

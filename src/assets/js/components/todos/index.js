@@ -4,13 +4,11 @@ import { TODO } from '../../constants';
 import TodoItem from '../common/Todo';
 import { Todo } from '../../models';
 import isAlphaNumeric from '../../helpers/isAlphaNumeric';
-import { RightSideSection } from '../common/Wrappers';
 import { Exception } from '../../helpers/PropTypes';
 
 class Todos extends PureComponent {
     
     static propTypes = {
-        category: PropTypes.object,
         updateItems: PropTypes.func,
         validateName: PropTypes.func,
         error: Exception,
@@ -40,22 +38,24 @@ class Todos extends PureComponent {
                 this.setError('Current To-Do item already exists', false)
             }
         };
-        
-        this.toggleTodo = id => this.props.updateItems({
-            id: this.props.category.id,
-            mapper: function(categories) {
-                const nextItem = this.updateChildren(this.children.map(item=>item.id == id ? item.toggleIsComplete() : item));
-                categories.push(nextItem);
-                return nextItem;
-            }
-        })
+
+        this.update = (id, updater) => this.props.updateItems({
+          id: this.props.category.id,
+          mapper: function(categories) {
+            const nextItem = this.updateChildren(this.children.map(item=>item.id == id ? updater.call(item) : item));
+            categories.push(nextItem);
+            return nextItem;
+          }
+        });
+
+        this.toggleTodo = id => this.update(id, Todo.prototype.toggleIsComplete);
     }
     
     render() {
-        if (!this.props.category) return (<RightSideSection/>);
+        if (!this.props.category) return (null);
         
         return (
-            <RightSideSection>
+            <section>
                 <h2 className="category-title">
                     {this.props.category && this.props.category.name}
                 </h2>
@@ -79,11 +79,23 @@ class Todos extends PureComponent {
                             />
                         )}
                 </section>
-            </RightSideSection>
+            </section>
         )
     }
 }
 
+import { findCategory } from '../../helpers/findCategory';
 
+const injectCategory = ComposedComponent => class extends PureComponent {
+    render() {
+        const category = findCategory(this.props.categories, this.props.params.id);
+        return (
+          <ComposedComponent
+            {...this.props}
+            category={category}
+          />
+        )
+    }
+};
 
-export default Todos
+export default injectCategory(Todos)

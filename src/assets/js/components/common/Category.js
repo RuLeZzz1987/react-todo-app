@@ -9,8 +9,7 @@ class Category extends PureComponent {
     changeCategoryName: PropTypes.func.isRequired,
     removeCategory: PropTypes.func.isRequired,
     addChild: PropTypes.func.isRequired,
-    selectCategory: PropTypes.func.isRequired,
-    selectedCategory: PropTypes.object,
+    selectedCategory: PropTypes.string.isRequired,
     showDone: PropTypes.bool.isRequired,
   };
 
@@ -31,7 +30,6 @@ class Category extends PureComponent {
     this.showFullName = () => this.setState({showFullName: true});
     this.hideFullName = () => this.setState({showFullName: false});
     this.addChild = () => this.props.addChild(this.props.category.id, this.generateChildName(1));
-    this.selectCategory = () => this.props.selectCategory(this.props.category);
     this.toggleExpanded = () => this.setState({isExpanded: !this.state.isExpanded});
   }
 
@@ -64,7 +62,7 @@ class Category extends PureComponent {
   }
 
   render() {
-    const isSelected = this.props.selectedCategory && this.props.category.id == this.props.selectedCategory.id;
+    const isSelected = this.props.category.id == this.props.selectedCategory;
     const expandedClassName = this.state.isExpanded ? 'fa fa-minus' : 'fa fa-plus';
     const showExpandedBtn = this.props.category.children.filter(el => el.type == CATEGORY).length > 0;
     const childrenExpandedClassName = this.state.isExpanded ? 'category-children' : 'category-children hide';
@@ -74,7 +72,6 @@ class Category extends PureComponent {
         <Link to={`/${this.props.category.id}`}>
           <section
             style={{backgroundColor: isSelected ? '#f0f757' : '#fff'}}
-            onClick={this.selectCategory}
             className="category"
           >
             <i
@@ -132,7 +129,6 @@ class Category extends PureComponent {
                 showDone={this.props.showDone}
                 addChild={this.props.addChild}
                 selectedCategory={this.props.selectedCategory}
-                selectCategory={this.props.selectCategory}
                 category={category}
                 removeCategory={this.props.removeCategory}
                 changeCategoryName={this.props.changeCategoryName}

@@ -15,7 +15,7 @@ export const update =({items, id, mapper, hook, isUpdated = {value: false}}) => 
             const mapped = mapper.bind(item, eitherItems);
             call(hook, mapped)
         } else {
-            eitherItems.push(isCategory(item, ()=>update({items: item.children, id, mapper, isUpdated})));
+            eitherItems.push(isCategory(item, ()=>update({items: item.children, id, mapper, isUpdated, hook})));
         }
         return eitherItems
     }, []);
