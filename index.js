@@ -12,7 +12,10 @@ const server = new WebpackDevServer(compiler, {
   color: true,
   clientLogLevel: 'warning',
   historyApiFallback: {
-    index: '/'
+    index: '/',
+    rewrites: [
+      { from: /favicon.ico/, to: 'src/assets/images/favicon.ico' }
+    ]
   }
 });
 server.listen(8880);
