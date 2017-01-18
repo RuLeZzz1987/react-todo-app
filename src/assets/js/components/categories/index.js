@@ -22,10 +22,15 @@ class Categories extends PureComponent {
     isTodoFound: PropTypes.bool.isRequired,
   };
 
+  static contextTypes = {
+    router: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
 
     this.add = this.add.bind(this);
+    this.moveTo = this.moveTo.bind(this);
     this.addChild = this.addChild.bind(this);
     this.changeCategoryName = this.changeCategoryName.bind(this);
     this.removeCategory = this.removeCategory.bind(this);
@@ -78,6 +83,52 @@ class Categories extends PureComponent {
     })
   }
 
+  moveTo(target) {
+    let todo;
+    const { selectedTodoId:todoId, selectedCategory:currentCategoryId } = this.props;
+
+    this.props.updateItems({
+      id: currentCategoryId,
+      mapper: function(categories) {
+        const nextCategory = this.updateChildren(this.children.filter(item=>{
+          if (item.id == todoId) {
+            todo = item;
+          }
+          return item.id != todoId
+        }));
+        categories.push(nextCategory);
+        return nextCategory;
+      }
+    });
+    if (!todo) {
+      this.setError(`Todo wasn't found in source Category ${currentCategoryId} while was moving to the target ${target} Category`, true);
+      return;
+    }
+
+    if (!this.props.validateName(TODO)(todoId)(todo.name)) {
+      this.props.updateItems({
+        id: target,
+        mapper: function(categories) {
+          const nextCategory = this.addChild(todo);
+          categories.push(nextCategory);
+          return nextCategory;
+        }
+      });
+      this.context.router.push(`/${target}/${todo.id}`)
+    } else {
+      this.props.updateItems({
+        id: currentCategoryId,
+        mapper: function(categories) {
+          const nextCategory = this.addChild(todo);
+          categories.push(nextCategory);
+          return nextCategory;
+        }
+      });
+      this.setError(`Todo with ${todo.name} name is already exists`, true)
+    }
+
+  }
+
   render() {
     return (
       <aside className="categories">
@@ -96,6 +147,7 @@ class Categories extends PureComponent {
             .filter(category => category.type == CATEGORY && (this.props.showDone ? true : !category.isComplete))
             .map(category =>
               <CategoryItem
+                moveTo={this.moveTo}
                 isTodoFound={this.props.isTodoFound}
                 selectedTodoId={this.props.selectedTodoId}
                 showDone={this.props.showDone}

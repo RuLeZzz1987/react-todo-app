@@ -13,6 +13,7 @@ class Category extends PureComponent {
     selectedCategory: PropTypes.string,
     showDone: PropTypes.bool.isRequired,
     selectedTodoId: PropTypes.string,
+    moveTo: PropTypes.func,
   };
 
   constructor(props) {
@@ -44,6 +45,7 @@ class Category extends PureComponent {
     };
     this.moveTodo = e => {
       e.preventDefault();
+      this.props.moveTo(this.props.category.id);
     }
   }
 
@@ -143,6 +145,7 @@ class Category extends PureComponent {
             .reverse()
             .map(category => <Category
                 key={category.id}
+                moveTo={this.props.moveTo}
                 isTodoFound={this.props.isTodoFound}
                 showDone={this.props.showDone}
                 addChild={this.props.addChild}
