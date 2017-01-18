@@ -1,0 +1,8 @@
+const Types = {
+  ADD_CATEGORY: Symbol('ADD_CATEGORY'),
+  EDIT_CATEGORY: Symbol('EDIT_CATEGORY'),
+  REMOVE_CATEGORY: Symbol('REMOVE_CATEGORY'),
+  TOGGLE_CATEGORY: Symbol('TOGGLE_CATEGORY'),
+};
+
+export default Types
