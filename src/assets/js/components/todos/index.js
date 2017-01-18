@@ -51,12 +51,12 @@ class Todos extends PureComponent {
           }
         });
       } else {
-        this.setError('Current To-Do item already exists', true)
+        this.setError('Current To-Do item already exists', true);
         e.preventDefault();
       }
     };
 
-    this.updateTodo = this.update(this.props.category.id);
+    this.updateTodo = this.update(this.props.category && this.props.category.id);
 
     this.toggleTodo = id => this.updateTodo(id, Todo.prototype.toggleIsComplete);
   }

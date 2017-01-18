@@ -87,6 +87,36 @@ class Categories extends PureComponent {
     let todo;
     const { selectedTodoId:todoId, selectedCategory:currentCategoryId } = this.props;
 
+    const afterRemoveCallBack = () => {
+
+      if (!todo) {
+        this.setError(`Todo wasn't found in source Category ${currentCategoryId} while was moving to the target ${target} Category`, true);
+        return;
+      }
+
+      if (!this.props.validateName(TODO)(todo.id)(todo.name)) {
+        this.props.updateItems({
+          id: target,
+          mapper: function (categories) {
+            const nextCategory = this.addChild(todo);
+            categories.push(nextCategory);
+            return nextCategory;
+          }
+        });
+        this.context.router.push(`/${target}/${todo.id}`)
+      } else {
+        this.props.updateItems({
+          id: currentCategoryId,
+          mapper: function (categories) {
+            const nextCategory = this.addChild(todo);
+            categories.push(nextCategory);
+            return nextCategory;
+          }
+        });
+        this.setError(`Todo with ${todo.name} name is already exists`, true)
+      }
+    };
+
     this.props.updateItems({
       id: currentCategoryId,
       mapper: function(categories) {
@@ -99,33 +129,7 @@ class Categories extends PureComponent {
         categories.push(nextCategory);
         return nextCategory;
       }
-    });
-    if (!todo) {
-      this.setError(`Todo wasn't found in source Category ${currentCategoryId} while was moving to the target ${target} Category`, true);
-      return;
-    }
-
-    if (!this.props.validateName(TODO)(todoId)(todo.name)) {
-      this.props.updateItems({
-        id: target,
-        mapper: function(categories) {
-          const nextCategory = this.addChild(todo);
-          categories.push(nextCategory);
-          return nextCategory;
-        }
-      });
-      this.context.router.push(`/${target}/${todo.id}`)
-    } else {
-      this.props.updateItems({
-        id: currentCategoryId,
-        mapper: function(categories) {
-          const nextCategory = this.addChild(todo);
-          categories.push(nextCategory);
-          return nextCategory;
-        }
-      });
-      this.setError(`Todo with ${todo.name} name is already exists`, true)
-    }
+    }, afterRemoveCallBack);
 
   }
 

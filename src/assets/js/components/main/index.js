@@ -43,7 +43,9 @@ class Main extends PureComponent {
 
     this.validate = ({id, type, items, name}) =>
       items.some(item => {
-        if (item.type == TODO) return false;
+        if (item.type == TODO) {
+          return item.name == name;
+        }
         return !id || item.id == id ?
           isNameExists(type)(name)(items, item)
           : this.validate({id, type, items: item.children, name})
