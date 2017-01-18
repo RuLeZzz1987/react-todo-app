@@ -1,6 +1,7 @@
 import React, { PureComponent, PropTypes } from 'react';
 import { CATEGORY } from '../../constants';
 import { Link } from 'react-router';
+import { hide, invisible } from '../../helpers/hide';
 
 class Category extends PureComponent {
 
@@ -11,6 +12,7 @@ class Category extends PureComponent {
     addChild: PropTypes.func.isRequired,
     selectedCategory: PropTypes.string,
     showDone: PropTypes.bool.isRequired,
+    selectedTodoId: PropTypes.string,
   };
 
   constructor(props) {
@@ -20,7 +22,7 @@ class Category extends PureComponent {
       isEditMode: false,
       name: props.category.name,
       showFullName: false,
-      isExpanded: true
+      isCollapsed: false
     };
 
     this.toggleEditMode = this.toggleEditMode.bind(this);
@@ -30,7 +32,7 @@ class Category extends PureComponent {
     this.showFullName = () => this.setState({showFullName: true});
     this.hideFullName = () => this.setState({showFullName: false});
     this.addChild = () => this.props.addChild(this.props.category.id, this.generateChildName(1));
-    this.toggleExpanded = () => this.setState({isExpanded: !this.state.isExpanded});
+    this.toggleExpanded = () => this.setState({isCollapsed: !this.state.isCollapsed});
   }
 
   generateChildName(n) {
@@ -63,9 +65,8 @@ class Category extends PureComponent {
 
   render() {
     const isSelected = this.props.category.id == this.props.selectedCategory;
-    const expandedClassName = this.state.isExpanded ? 'fa fa-minus' : 'fa fa-plus';
-    const showExpandedBtn = this.props.category.children.filter(el => el.type == CATEGORY).length > 0;
-    const childrenExpandedClassName = this.state.isExpanded ? 'category-children' : 'category-children hide';
+    const expandedClassName = this.state.isCollapsed ? 'fa fa-plus' : 'fa fa-minus';
+    const hideExpandedBtn = this.props.category.children.filter(el => el.type == CATEGORY).length == 0;
 
     return (
       <section>
@@ -75,14 +76,10 @@ class Category extends PureComponent {
             className="category"
           >
             <i
-              style={{visibility: showExpandedBtn ? 'visible' : 'hidden'}}
-              className={expandedClassName}
+              className={invisible(hideExpandedBtn, expandedClassName)}
               onClick={this.toggleExpanded}
             />
-            <i
-              style={{visibility: this.props.category.isComplete ? 'visible' : 'hidden'}}
-              className="fa fa-check"
-            />
+            <i className={invisible(!this.props.category.isComplete || this.props.isTodoFound, "fa fa-check")}/>
             {this.state.isEditMode ?
               <input
                 ref={el => {
@@ -103,10 +100,10 @@ class Category extends PureComponent {
               </h3>
             }
             <i
-              className="fa fa-edit"
+              className={hide(this.props.isTodoFound, "fa fa-edit")}
               onClick={this.toggleEditMode}
             />
-            <div className="remove-add-controls">
+            <div className={hide(this.props.isTodoFound, "remove-add-controls")}>
               <i className="fa fa-trash"
                  onClick={this.removeCategory}
               />
@@ -120,14 +117,16 @@ class Category extends PureComponent {
             </div>}
           </section>
         </Link>
-        <section className={childrenExpandedClassName}>
+        <section className={hide(this.state.isCollapsed, 'category-children')}>
           {this.props.category.children
             .filter(category => category.type == CATEGORY && (this.props.showDone ? true : !category.isComplete))
             .reverse()
             .map(category => <Category
                 key={category.id}
+                isTodoFound={this.props.isTodoFound}
                 showDone={this.props.showDone}
                 addChild={this.props.addChild}
+                selectedTodoId={this.props.selectedTodoId}
                 selectedCategory={this.props.selectedCategory}
                 category={category}
                 removeCategory={this.props.removeCategory}

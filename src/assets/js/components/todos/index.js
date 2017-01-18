@@ -1,10 +1,10 @@
-import React, { PureComponent, PropTypes } from 'react';
-import Editor from '../common/Editor';
-import { TODO, CATEGORY } from '../../constants';
-import TodoItem from '../common/Todo';
-import { Todo } from '../../models';
-import isAlphaNumeric from '../../helpers/isAlphaNumeric';
-import { Exception } from '../../helpers/PropTypes';
+import React, { PureComponent, PropTypes } from "react";
+import Editor from "../common/Editor";
+import { TODO } from "../../constants";
+import TodoItem from "../common/Todo";
+import { Todo } from "../../models";
+import isAlphaNumeric from "../../helpers/isAlphaNumeric";
+import { Exception } from "../../helpers/PropTypes";
 
 class Todos extends PureComponent {
 
@@ -15,6 +15,7 @@ class Todos extends PureComponent {
     clearError: PropTypes.func,
     setError: PropTypes.func,
     showDone: PropTypes.bool,
+    category: PropTypes.object
   };
 
   constructor(props) {
@@ -93,18 +94,4 @@ class Todos extends PureComponent {
   }
 }
 
-import { findItem } from '../../helpers/findItem';
-
-const injectCategory = ComposedComponent => class extends PureComponent {
-  render() {
-    const category = findItem(CATEGORY)(this.props.categories, this.props.params.categoryId);
-    return (
-      <ComposedComponent
-        {...this.props}
-        category={category}
-      />
-    )
-  }
-};
-
-export default injectCategory(Todos)
+export default Todos
