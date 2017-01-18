@@ -9,8 +9,6 @@ class TodoEditor extends Component {
     category: PropTypes.object,
     updateTodo: PropTypes.func,
     todo: PropTypes.object,
-    moveToCategoryId: PropTypes.string,
-    moveTodoToCategory: PropTypes.func
   };
 
   static defaultProps = {

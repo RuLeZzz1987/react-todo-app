@@ -81,8 +81,6 @@ class Main extends PureComponent {
           {this.props.todos && React.cloneElement(this.props.todos, {
             error: this.state.error,
             showDone: this.props.showDone,
-            moveToCategoryId: this.state.moveToCategoryId,
-            moveTodoToCategory: this.moveTodoToCategory,
             setError: this.setError,
             clearError: this.clearError,
             validateName: this.validateName,

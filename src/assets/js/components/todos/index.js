@@ -16,8 +16,6 @@ class Todos extends PureComponent {
     setError: PropTypes.func,
     showDone: PropTypes.bool,
     category: PropTypes.object,
-    moveTodoToCategory: PropTypes.func,
-    moveToCategoryId: PropTypes.string,
   };
 
   constructor(props) {
@@ -68,8 +66,6 @@ class Todos extends PureComponent {
 
     if (this.props.editor) {
       return React.cloneElement(this.props.editor, {
-        moveTodoToCategory: this.props.moveTodoToCategory,
-        moveToCategoryId: this.props.moveToCategoryId,
         category: this.props.category,
         updateTodo: this.updateTodo,
         todo: this.props.category.children.find(item => item.id == this.props.params.todoId)
