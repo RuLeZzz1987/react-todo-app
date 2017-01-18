@@ -28,11 +28,21 @@ class Category extends PureComponent {
     this.toggleEditMode = this.toggleEditMode.bind(this);
     this.editCategoryName = this.editCategoryName.bind(this);
     this.changeCategoryName = this.changeCategoryName.bind(this, props.category.id);
-    this.removeCategory = () => this.props.removeCategory(this.props.category.id);
+    this.removeCategory = e => {
+      e.preventDefault();
+      this.props.removeCategory(this.props.category.id);
+    };
     this.showFullName = () => this.setState({showFullName: true});
     this.hideFullName = () => this.setState({showFullName: false});
-    this.addChild = () => this.props.addChild(this.props.category.id, this.generateChildName(1));
-    this.toggleExpanded = () => this.setState({isCollapsed: !this.state.isCollapsed});
+    this.addChild = e => {
+      e.preventDefault();
+      this.props.addChild(this.props.category.id, this.generateChildName(1));
+    };
+    this.toggleExpanded = e => {
+      e.preventDefault();
+      this.setState({isCollapsed: !this.state.isCollapsed});
+    };
+    this.moveTodo = e => e.preventDefault();
   }
 
   generateChildName(n) {
@@ -49,11 +59,11 @@ class Category extends PureComponent {
       if (this.state.isEditMode) {
         this.nameInput.focus();
       }
-    })
+    });
   }
 
   editCategoryName(e) {
-    this.setState({name: e.target.value})
+    this.setState({name: e.target.value});
   }
 
   changeCategoryName(id) {
@@ -103,14 +113,22 @@ class Category extends PureComponent {
               className={hide(this.props.isTodoFound, "fa fa-edit")}
               onClick={this.toggleEditMode}
             />
-            <div className={hide(this.props.isTodoFound, "remove-add-controls")}>
-              <i className="fa fa-trash"
-                 onClick={this.removeCategory}
-              />
-              <i className="fa fa-plus"
-                 onClick={this.addChild}
-              />
-            </div>
+            {!this.props.isTodoFound ?
+              <div className="remove-add-controls">
+                <i className="fa fa-trash"
+                   onClick={this.removeCategory}
+                />
+                <i className="fa fa-plus"
+                   onClick={this.addChild}
+                />
+              </div>
+              :
+              <div className={hide(isSelected, "remove-add-controls")}>
+                <i className="fa fa-long-arrow-left"
+                   onClick={this.moveTodo}
+                />
+              </div>
+            }
             {this.state.showFullName &&
             <div className="fullname">
               {this.props.category.name}
