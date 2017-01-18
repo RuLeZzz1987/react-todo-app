@@ -25,7 +25,7 @@ class Modal extends Component {
         onClick={this.close}
       >
         <div className="modal-content">
-          {React.Children.map(this.props.children, child=>React.cloneElement(child, {onClose: this.close}))}
+          {React.Children.map(this.props.children, child=>React.cloneElement(child, {onClose: this.props.onClose}))}
         </div>
       </div>
     )

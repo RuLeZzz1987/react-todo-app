@@ -27,6 +27,7 @@ class Main extends PureComponent {
 
     this.state = {
       error: undefined,
+      moveToCategoryId: ''
     };
 
     this.addRootCategory = (category, cb) => this.props.updateCategories(this.props.categories.concat(category), cb);
@@ -50,6 +51,7 @@ class Main extends PureComponent {
 
     this.clearError = () => this.setState({error: undefined});
     this.setError = type => (message, popup) => this.setState({error: {type, message, popup,}});
+    this.moveTodoToCategory = id => this.setState({moveToCategoryId: id});
   }
 
   render() {
@@ -66,6 +68,7 @@ class Main extends PureComponent {
           showDone={this.props.showDone}
           selectedCategory={this.props.params.categoryId}
           selectedTodoId={this.props.params.todoId}
+          moveTodoToCategory={this.moveTodoToCategory}
           setError={this.setError}
           clearError={this.clearError}
           validateName={this.validateName}
@@ -78,6 +81,8 @@ class Main extends PureComponent {
           {this.props.todos && React.cloneElement(this.props.todos, {
             error: this.state.error,
             showDone: this.props.showDone,
+            moveToCategoryId: this.state.moveToCategoryId,
+            moveTodoToCategory: this.moveTodoToCategory,
             setError: this.setError,
             clearError: this.clearError,
             validateName: this.validateName,

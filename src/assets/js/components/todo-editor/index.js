@@ -7,8 +7,10 @@ class TodoEditor extends Component {
 
   static propTypes = {
     category: PropTypes.object,
-    update: PropTypes.func,
+    updateTodo: PropTypes.func,
     todo: PropTypes.object,
+    moveToCategoryId: PropTypes.string,
+    moveTodoToCategory: PropTypes.func
   };
 
   static defaultProps = {
@@ -32,7 +34,7 @@ class TodoEditor extends Component {
       createdAt: this.props.todo.createdAt,
     });
 
-    this.update = () => this.props.update(this.props.todo.id, updater)
+    this.update = e => this.props.updateTodo(this.state.name)(this.props.todo.id, updater, e)
   }
 
   componentWillMount() {

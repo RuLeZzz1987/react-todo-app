@@ -42,7 +42,9 @@ class Category extends PureComponent {
       e.preventDefault();
       this.setState({isCollapsed: !this.state.isCollapsed});
     };
-    this.moveTodo = e => e.preventDefault();
+    this.moveTodo = e => {
+      e.preventDefault();
+    }
   }
 
   generateChildName(n) {

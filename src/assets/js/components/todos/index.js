@@ -15,7 +15,9 @@ class Todos extends PureComponent {
     clearError: PropTypes.func,
     setError: PropTypes.func,
     showDone: PropTypes.bool,
-    category: PropTypes.object
+    category: PropTypes.object,
+    moveTodoToCategory: PropTypes.func,
+    moveToCategoryId: PropTypes.string,
   };
 
   constructor(props) {
@@ -40,25 +42,36 @@ class Todos extends PureComponent {
       }
     };
 
-    this.update = (id, updater) => this.props.updateItems({
-      id: this.props.category.id,
-      mapper: function (categories) {
-        const nextItem = this.updateChildren(this.children.map(item => item.id == id ? updater.call(item) : item));
-        categories.push(nextItem);
-        return nextItem;
+    this.update = categoryId => name => (id, updater, e) => {
+      if (!this.validate(categoryId)(name)) {
+        this.props.updateItems({
+          id: categoryId,
+          mapper: function (categories) {
+            const nextItem = this.updateChildren(this.children.map(item => item.id == id ? updater.call(item) : item));
+            categories.push(nextItem);
+            return nextItem;
+          }
+        });
+      } else {
+        this.setError('Current To-Do item already exists', true)
+        e.preventDefault();
       }
-    });
+    };
 
-    this.toggleTodo = id => this.update(id, Todo.prototype.toggleIsComplete);
+    this.updateTodo = this.update(this.props.category.id);
+
+    this.toggleTodo = id => this.updateTodo(id, Todo.prototype.toggleIsComplete);
   }
 
   render() {
     if (!this.props.category) return (null);
 
     if (this.props.editor) {
-      return  React.cloneElement(this.props.editor, {
+      return React.cloneElement(this.props.editor, {
+        moveTodoToCategory: this.props.moveTodoToCategory,
+        moveToCategoryId: this.props.moveToCategoryId,
         category: this.props.category,
-        update: this.update,
+        updateTodo: this.updateTodo,
         todo: this.props.category.children.find(item => item.id == this.props.params.todoId)
       })
     }
