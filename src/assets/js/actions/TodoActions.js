@@ -5,11 +5,13 @@ import uuid from 'uuid';
 const Actions = {
 
   addTodo(name, categoryId) {
+    const id = uuid.v4();
+
     Dispatcher.dispatch({
       type: Types.ADD_TODO,
       name,
       categoryId,
-      id: uuid.v4(),
+      id,
     })
   },
 
