@@ -1,8 +1,12 @@
 import { ReduceStore } from 'flux/utils';
-import TodoActionTypes from '../constants/TodoActionTypes'
-import uuid from 'uuid';
+import TodoActionTypes from '../constants/TodoActionTypes';
+import Dispatcher from '../dispatcher';
 
 class TodoStore extends ReduceStore {
+
+  constructor() {
+    super(Dispatcher);
+  }
 
   getInitialState() {
     return {}
@@ -11,58 +15,73 @@ class TodoStore extends ReduceStore {
   reduce(state, action) {
     switch (action.type) {
       case TodoActionTypes.ADD_TODO:
-        return {
-          ...state,
-          [uuid.v4()]: {
-            name: action.name,
-            categoryId: action.categoryId,
-            isComplete: false,
-            description: ''
-          }
-        };
+        return addTodo(state, action);
       case TodoActionTypes.TOGGLE_TODO:
-        return {
-          ...state,
-          [action.id]: {
-            ...state[action.id],
-            isComplete: !state[action.id].isComplete
-          }
-        };
-      case TodoActionTypes.REMOVE_TODO:
-        return removeTodo(state, action.id);
+        return toggleTodo(state, action);
+      case TodoActionTypes.REMOVE_TODOS:
+        return removeTodo(state, action);
       case TodoActionTypes.EDIT_TODO:
-        return {
-          ...state,
-          [action.id]: {
-            ...state[action.id],
-            name: action.name,
-            description: action.description,
-            isComplete: action.isComplete
-          },
-        };
+        return editTodo(state, action);
       case TodoActionTypes.MOVE_TO:
-        return {
-          ...state,
-          [action.id]: {
-            ...state[action.id],
-            categoryId: action.categoryId,
-          },
-        };
+        return moveTo(state, action);
       default:
         return state;
     }
   }
 }
 
-function removeTodo(state, id) {
-  return !state[id] ? state
-    :
-    Object.keys(state)
-      .reduce((nextState, currentId) => {
-        if (currentId != id) nextState[currentId] = state[currentId];
-        return nextState
-      }, {})
+function removeTodo(state, {ids}) {
+  const todoIds = Object.keys(state);
+  if (todoIds.length == 0) return state;
+
+  return todoIds.reduce((nextState, currentId) => {
+    if (!ids.includes(currentId)) nextState[currentId] = state[currentId];
+    return nextState
+  }, {})
 }
 
+function addTodo(state, {categoryId, name, id}) {
+  return {
+    ...state,
+    [id]: {
+      name,
+      categoryId,
+      isComplete: false,
+      description: ''
+    }
+  };
+}
 
-export default TodoStore
+function toggleTodo(state, {id}) {
+  return {
+    ...state,
+    [id]: {
+      ...state[id],
+      isComplete: !state[id].isComplete
+    }
+  };
+}
+
+function editTodo(state, {id, name, description, isComplete}) {
+  return {
+    ...state,
+    [id]: {
+      ...state[id],
+      name,
+      description,
+      isComplete,
+    },
+  };
+}
+
+function moveTo(state, {id, categoryId}) {
+  return {
+    ...state,
+    [id]: {
+      ...state[id],
+      categoryId,
+    },
+  };
+}
+
+export default new TodoStore();

@@ -1,32 +1,45 @@
-import Dispatcher from '../dispatcher';
-import Types from '../constants/CategoryActionTypes';
+import Dispatcher from "../dispatcher";
+import CategoryActionTypes from "../constants/CategoryActionTypes";
+import { collectNestedCategoriesIds, collectNestedTodoIds } from "../helpers";
+import { CategoryStore } from "../stores";
+import TodoActions from './TodoActions';
+import uuid from 'uuid';
 
 const Actions = {
   addCategory(name, parentId) {
     Dispatcher.dispatch({
-      type: Types.ADD_CATEGORY,
+      type: CategoryActionTypes.ADD_CATEGORY,
       name,
-      parentId
+      parentId,
+      id: uuid.v4(),
     })
   },
 
   removeCategory(id) {
+    const categories = CategoryStore.getState();
+    const toBeDeletedCategoriesIds = collectNestedCategoriesIds(categories)(id);
+    const toBeDeletedTodosIds = collectNestedTodoIds(categories)(toBeDeletedCategoriesIds);
+
+    TodoActions.removeTodos(toBeDeletedTodosIds);
+
     Dispatcher.dispatch({
-      type: Types.REMOVE_CATEGORY,
-      id
-    })
+      type: CategoryActionTypes.REMOVE_CATEGORIES,
+      ids: toBeDeletedCategoriesIds
+    });
+
   },
 
-  editCategory(name) {
+  editCategory(name, id) {
     Dispatcher.dispatch({
-      type: Types.EDIT_CATEGORY,
-      name
+      type: CategoryActionTypes.EDIT_CATEGORY,
+      name,
+      id
     })
   },
 
   toggleCategory(id) {
     Dispatcher.dispatch({
-      type: Types.TOGGLE_CATEGORY,
+      type: CategoryActionTypes.TOGGLE_CATEGORY,
       id
     })
   }

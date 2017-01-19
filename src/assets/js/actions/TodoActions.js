@@ -1,5 +1,6 @@
 import Types from '../constants/TodoActionTypes';
 import Dispatcher from '../dispatcher';
+import uuid from 'uuid';
 
 const Actions = {
 
@@ -7,14 +8,15 @@ const Actions = {
     Dispatcher.dispatch({
       type: Types.ADD_TODO,
       name,
-      categoryId
+      categoryId,
+      id: uuid.v4(),
     })
   },
 
-  removeTodo(id) {
+  removeTodos(ids) {
     Dispatcher.dispatch({
-      type: Types.REMOVE_TODO,
-      id
+      type: Types.REMOVE_TODOS,
+      ids
     })
   },
 

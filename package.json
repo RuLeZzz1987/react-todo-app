@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Alex Duka",
   "license": "ISC",
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.18.0",
+    "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.7",
     "babel-plugin-react-transform": "^2.0.2",
     "babel-polyfill": "^6.16.0",
@@ -23,6 +24,7 @@
     "file-loader": "^0.9.0",
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.24.1",
+    "jest": "^18.1.0",
     "json-loader": "^0.5.4",
     "node-sass": "^3.10.1",
     "react-transform-hmr": "^1.0.4",
@@ -47,5 +49,14 @@
     "redux-saga": "^0.13.0",
     "redux-thunk": "^2.1.0",
     "uuid": "^2.0.3"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "rootDir": ""
   }
 }
