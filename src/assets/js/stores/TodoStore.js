@@ -19,7 +19,7 @@ class TodoStore extends ReduceStore {
       case TodoActionTypes.TOGGLE_TODO:
         return toggleTodo(state, action);
       case TodoActionTypes.REMOVE_TODOS:
-        return removeTodo(state, action);
+        return removeTodos(state, action);
       case TodoActionTypes.EDIT_TODO:
         return editTodo(state, action);
       case TodoActionTypes.MOVE_TO:
@@ -30,9 +30,9 @@ class TodoStore extends ReduceStore {
   }
 }
 
-function removeTodo(state, {ids}) {
+function removeTodos(state, {ids}) {
   const todoIds = Object.keys(state);
-  if (todoIds.length == 0) return state;
+  if (todoIds.length == 0 || ids.length == 0) return state;
 
   return todoIds.reduce((nextState, currentId) => {
     if (!ids.includes(currentId)) nextState[currentId] = state[currentId];

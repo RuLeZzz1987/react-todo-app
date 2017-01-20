@@ -52,7 +52,7 @@
     "uuid": "^2.0.3"
   },
   "jest": {
-    "collectCoverage": true,
+    "collectCoverage": false,
     "collectCoverageFrom": ["**/*.{js,jsx}", "!**/node_modules/**", "!**/vendor/**"],
     "coverageDirectory": "coverage",
     "coverageCollector": "jest-babel-istanbul",
