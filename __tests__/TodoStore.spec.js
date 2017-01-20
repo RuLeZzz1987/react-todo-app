@@ -21,20 +21,52 @@ describe('TodoStore', function(){
 
     const { id, name, categoryId } = mockData.todos[0];
 
+    let categoriesState = CategoryStore.getState();
+
+    checkComplete(categoriesState, categoryId, true);
+
     uuid.v4.mockImplementation(()=>id);
     TodoActions.addTodo(name, categoryId);
 
-    const state = TodoStore.getState();
-    const categoriesState = CategoryStore.getState();
+    categoriesState = CategoryStore.getState();
 
-    const todo = state[0];
+    const state = TodoStore.getState();
+
+    const todo = state[id];
 
     expect(Object.keys(state).length).toBe(1);
     expect(todo).toBeDefined();
     expect(todo.categoryId).toBe(categoryId);
     expect(todo.isComplete).toBeFalsy();
 
-    expect(categoriesState[categoryId].todos).toContain(id)
+    expect(categoriesState[categoryId].todos).toContain(id);
+
+    function checkComplete(categories, id, value) {
+      expect(categories[id].isComplete).toBe(value);
+      if (categories[id].parentId) checkComplete(categories, categories[id].parentId, value);
+    }
+
+    checkComplete(categoriesState, categoryId, false)
+  });
+
+  it('can edit Todo', function () {
+    const { id } = mockData.todos[0];
+    const nextTodo = {
+      name: 'Next Todo 1',
+      description: 'Next Description'
+    };
+
+    TodoActions.editTodo({id, ...nextTodo});
+
+    const state = TodoStore.getState();
+
+    const todo = state[id];
+
+    expect(Object.keys(state).length).toBe(1);
+    expect(todo).toBeDefined();
+    expect(todo.name).toBe(nextTodo.name);
+    expect(todo.description).toBe(nextTodo.description);
+    expect(todo.isComplete).toBeFalsy();
 
   })
 

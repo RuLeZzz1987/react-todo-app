@@ -29,12 +29,13 @@ const Actions = {
     })
   },
 
-  editTodo({name, description, isComplete}) {
+  editTodo({id, name, description, isComplete}) {
     Dispatcher.dispatch({
       type: Types.EDIT_TODO,
       name,
       description,
-      isComplete
+      isComplete,
+      id
     });
   },
 
