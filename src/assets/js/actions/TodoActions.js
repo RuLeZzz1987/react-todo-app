@@ -46,14 +46,15 @@ const Actions = {
     checkAreComplete(id);
   },
 
-  moveTo(id, categoryId) {
+  moveTo({id, nextCategoryId, currentCategoryId}) {
     Dispatcher.dispatch({
       type: Types.MOVE_TO,
       id,
-      categoryId
+      categoryId: nextCategoryId
     });
 
-    toggleCategoryIfComplete(categoryId);
+    toggleCategoryIfComplete(nextCategoryId);
+    toggleCategoryIfComplete(currentCategoryId);
   }
 
 };

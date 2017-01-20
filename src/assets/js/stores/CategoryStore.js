@@ -23,7 +23,7 @@ class CategoryStore extends ReduceStore {
         return editCategory(state, action);
       case TodoTypes.ADD_TODO:
         return addTodo(state, action);
-      case TodoTypes.TOGGLE_TODO:
+      case CategoryTypes.TOGGLE_CATEGORY:
         return toggleCategory(state, action);
       default:
         return state;
@@ -61,30 +61,14 @@ function addCategory(state, {name, parentId, id}) {
   return nextState;
 }
 
-function checkComplete(state, id) {
-  if (!state[id].isComplete) return state;
-
-  const nextState = {
-    ...state,
-    [id]: {
-      ...state[id],
-      isComplete: false
-    }
-  };
-
-  if (!nextState[id].parentId) return nextState;
-  return checkComplete(nextState, nextState[id].parentId)
-}
-
 function addTodo(state, {id, categoryId}) {
-  return checkComplete({
+  return {
       ...state,
       [categoryId]: {
         ...state[categoryId],
         todos: state[categoryId].todos.concat(id)
       }
-    },
-    categoryId)
+    }
 }
 
 function removeCategories(state, {ids}) {
@@ -99,7 +83,6 @@ function removeCategories(state, {ids}) {
 }
 
 function editCategory(state, {name, id}) {
-  if (!state[id]) throw new Error(`Missing Category with id: ${id}`);
   return {
     ...state,
     [id]: {

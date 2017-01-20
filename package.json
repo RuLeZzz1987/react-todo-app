@@ -25,6 +25,7 @@
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.24.1",
     "jest": "^18.1.0",
+    "jest-babel-istanbul": "^0.1.0",
     "json-loader": "^0.5.4",
     "node-sass": "^3.10.1",
     "react-transform-hmr": "^1.0.4",
@@ -51,6 +52,10 @@
     "uuid": "^2.0.3"
   },
   "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": ["**/*.{js,jsx}", "!**/node_modules/**", "!**/vendor/**"],
+    "coverageDirectory": "coverage",
+    "coverageCollector": "jest-babel-istanbul",
     "modulePathIgnorePatterns": [
       "/node_modules/"
     ],

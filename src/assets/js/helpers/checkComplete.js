@@ -1,27 +1,33 @@
-import { TodoStore, CategoryStore} from '../stores';
+import { TodoStore, CategoryStore } from '../stores';
 import CategoryActions from '../actions/CategoryActions';
 
 export function toggleCategoryIfComplete(id) {
   if (!id) return;
 
-  let categories = CategoryStore.getState();
-  let todos = TodoStore.getState();
+  const categories = CategoryStore.getState();
   const category = categories[id];
+  const {parentId, todos, subCategories, isComplete} = category;
 
-  const areSubItemsComplete = category.todos.every(todoId=>todos[todoId].isComplete) || category.subCategories.every(categoryId=>categories[categoryId].isComplete);
-  if (!areSubItemsComplete) {
-    return shouldBeToggle(category, toggleCategoryIfComplete, category.isComplete);
+  if (areSubItemsComplete(categories)(TodoStore.getState())(subCategories, todos)) {
+    return shouldBe(isComplete)(true)(id, parentId);
   }
 
-  return shouldBeToggle(category, toggleCategoryIfComplete, !category.isComplete)
+  return shouldBe(isComplete)(false)(id, parentId);
 }
 
-function shouldBeToggle(category, checkParent, shouldBe) {
-  if (shouldBe) {
-    CategoryActions.toggleCategory(category.id);
-    checkParent(category.parentId);
-  }
-}
+const shouldBe = isComplete => shouldBe => isComplete == shouldBe ?
+  (() => {
+  }) :
+  (id, parentId) => {
+    CategoryActions.toggleCategory(id);
+    toggleCategoryIfComplete(parentId);
+  };
+
+
+const areItemsComplete = state => ids => ids.every(id => state[id].isComplete);
+
+const areSubItemsComplete = categories => todos => (subCategoriesIds, todosIds) =>
+areItemsComplete(categories)(subCategoriesIds) || areItemsComplete(todos)(todosIds);
 
 export function checkAreComplete(todoId) {
   const todos = TodoStore.getState();

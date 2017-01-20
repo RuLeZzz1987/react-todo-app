@@ -1,17 +1,18 @@
 export default {
-  categories: [
-    {name: 'Category_1', id: 5},
-    {name: 'Category_2', id: 1},
-    {name: 'Category_1_1', id: 2, parentId: 5},
-    {name: 'Category_1_1_1', id: 3, parentId: 2},
-    {name: 'Category_2_1', id: 4, parentId: 1}
-  ],
+  categories: [],
 
-  todos: [
-    {name: 'Todo_5', categoryId: 2, id: 5},
-    {name: 'Todo_1', categoryId: 1, id: 1},
-    {name: 'Todo_2', categoryId: 3, id: 2},
-    {name: 'Todo_3', categoryId: 4, id: 3},
-    {name: 'Todo_4', categoryId: 4, id: 4}
-  ]
+  todoStore: {
+    '5': {name: 'Todo_5', categoryId: 2},
+    '1': {name: 'Todo_1', categoryId: 1},
+    '2': {name: 'Todo_2', categoryId: 3},
+    '3': {name: 'Todo_3', categoryId: 4},
+    '4': {name: 'Todo_4', categoryId: 4}
+  },
+  categoryStore: {
+    '5': {name: 'Category_1', parentId: undefined, isComplete: true, todos: [], subCategories: [2]},
+    '1': {name: 'Category_2', parentId: undefined, isComplete: true, todos: [], subCategories: [4]},
+    '2': {name: 'Category_1_1', parentId: 5, isComplete: true, todos: [], subCategories: [3]},
+    '3': {name: 'Category_1_1_1', parentId: 2, isComplete: true, todos: [], subCategories: []},
+    '4': {name: 'Category_2_1', parentId: 1, isComplete: true, todos: [], subCategories: []}
+  },
 };
