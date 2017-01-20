@@ -1,6 +1,7 @@
 import Types from '../constants/TodoActionTypes';
 import Dispatcher from '../dispatcher';
 import uuid from 'uuid';
+import { toggleCategoryIfComplete, checkAreComplete } from '../helpers/checkComplete';
 
 const Actions = {
 
@@ -12,7 +13,9 @@ const Actions = {
       name,
       categoryId,
       id,
-    })
+    });
+
+    toggleCategoryIfComplete(categoryId);
   },
 
   removeTodos(ids) {
@@ -26,7 +29,9 @@ const Actions = {
     Dispatcher.dispatch({
       type: Types.TOGGLE_TODO,
       id
-    })
+    });
+
+    checkAreComplete(id);
   },
 
   editTodo({id, name, description, isComplete}) {
@@ -37,6 +42,8 @@ const Actions = {
       isComplete,
       id
     });
+
+    checkAreComplete(id);
   },
 
   moveTo(id, categoryId) {
@@ -44,7 +51,9 @@ const Actions = {
       type: Types.MOVE_TO,
       id,
       categoryId
-    })
+    });
+
+    toggleCategoryIfComplete(categoryId);
   }
 
 };

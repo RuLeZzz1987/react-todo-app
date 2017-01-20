@@ -24,15 +24,21 @@ class CategoryStore extends ReduceStore {
       case TodoTypes.ADD_TODO:
         return addTodo(state, action);
       case TodoTypes.TOGGLE_TODO:
-        return toggleTodo(state, action);
+        return toggleCategory(state, action);
       default:
         return state;
     }
   }
 }
 
-function toggleTodo(state, action) {
-
+function toggleCategory(state, { id }) {
+  return {
+    ...state,
+    [id]: {
+      ...state[id],
+      isComplete: !state[id].isComplete
+    }
+  }
 }
 
 function addCategory(state, {name, parentId, id}) {
