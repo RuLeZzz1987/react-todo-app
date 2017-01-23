@@ -6,13 +6,17 @@ import TodoActions from './TodoActions';
 import uuid from 'uuid';
 
 const Actions = {
+  addCategory: ({name, parentId, id}) => ({
+    type: CategoryActionTypes.ADD_CATEGORY,
+    id,
+    parentId,
+    name
+  })
+};
+
+const ActionCreators = {
   addCategory(name, parentId) {
-    Dispatcher.dispatch({
-      type: CategoryActionTypes.ADD_CATEGORY,
-      name,
-      parentId,
-      id: uuid.v4(),
-    })
+    Dispatcher.dispatch(Actions.addCategory({name, parentId, id: uuid.v4()}))
   },
 
   removeCategory(id) {
@@ -45,4 +49,4 @@ const Actions = {
   }
 };
 
-export default Actions
+export default ActionCreators

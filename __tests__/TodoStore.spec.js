@@ -18,6 +18,18 @@ describe('TodoStore', function(){
     };
   });
 
+  it('should return unchanged state on not registered action types', function () {
+
+    const thatState = this.state;
+
+    this.dispatch({
+      type: Symbol('UNREGISTERED_ACTION')
+    });
+
+    expect(this.state).toBe(thatState);
+
+  });
+
   it('can add Todo', function () {
 
     const name = 'Todo_1';
@@ -125,6 +137,18 @@ describe('TodoStore', function(){
 
       expect(this.state[this.id].isComplete).toBe(!isComplete);
 
+    });
+
+    it('can move todo to other category', function () {
+      const nextCategoryId = 'next_category_ID';
+
+      this.dispatch({
+        type: TodoActionTypes.MOVE_TO,
+        id: this.id,
+        categoryId: nextCategoryId
+      });
+
+      expect(this.state[this.id].categoryId).toBe(nextCategoryId);
     });
 
   });

@@ -1,6 +1,12 @@
 import { ReduceStore } from 'flux/utils';
+import { FilterActionTypes } from '../constants';
+import Dispatcher from '../dispatcher';
 
-class TodoStore extends ReduceStore {
+class FilterStore extends ReduceStore {
+
+  constructor() {
+    super(Dispatcher);
+  }
 
   getInitialState() {
     return {
@@ -11,10 +17,20 @@ class TodoStore extends ReduceStore {
 
   reduce(state, action) {
     switch(action.type) {
+      case FilterActionTypes.CHANGE_FILTER:
+        return {
+          ...state,
+          filter: action.filter
+        };
+      case FilterActionTypes.TOGGLE_SHOW_DONE:
+        return {
+          ...state,
+          showDone: !state.showDone
+        };
       default:
         return state;
     }
   }
 }
 
-export default TodoStore
+export default new FilterStore();
