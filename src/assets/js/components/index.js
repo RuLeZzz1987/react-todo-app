@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import Header from './header';
-import Main from './main';
-import { Category, Todo } from '../models';
+import React, { Component } from "react";
+import { Header } from "../containers";
+import Main from "./main";
+import { Category, Todo } from "../models";
 
 const defaultCategories = [new Category({name: 'Category_1', isRoot: true, children: [new Todo({name: 'To-Do Item #1'}), new Category({name: 'Category_1_1'})]})];
 
@@ -17,17 +17,12 @@ class App extends Component {
         };
         
         this.updateCategories = (categories, cb) => this.setState({categories, filteredCategories: categories}, cb);
-        this.toggleShowDone = () => this.setState({showDone: !this.state.showDone});
     }
     
     render() {
         return (
             <div>
-                <Header
-                    categories={this.state.categories}
-                    showDone={this.state.showDone}
-                    toggleShowDone={this.toggleShowDone}
-                />
+                <Header/>
                 <Main
                     params={this.props.params}
                     todos={this.props.todos}

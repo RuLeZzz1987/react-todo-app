@@ -23,7 +23,7 @@ describe('FilterStore', function () {
 
   });
 
-  it('can change filter', function () {
+  it('can change and clear filter', function () {
 
     const nextFilter = 'next filter';
 
@@ -33,6 +33,12 @@ describe('FilterStore', function () {
     });
 
     expect(this.state.filter).toBe(nextFilter);
+
+    this.dispatch({
+      type: FilterActionTypes.CLEAR_FILTER
+    });
+
+    expect(this.state.filter).toBe('');
 
   });
 

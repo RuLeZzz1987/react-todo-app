@@ -8,6 +8,9 @@ const Actions = {
   changeFilter: filter => ({
     type: FilterActionTypes.CHANGE_FILTER,
     filter
+  }),
+  clearFilter: () => ({
+    type: FilterActionTypes.CLEAR_FILTER
   })
 };
 
@@ -18,6 +21,10 @@ const ActionsCreators = {
 
   changeFilter: filter => {
     Dispatcher.dispatch(Actions.changeFilter(filter))
+  },
+
+  clearFilter: () => {
+    Dispatcher.dispatch(Actions.clearFilter());
   }
 };
 

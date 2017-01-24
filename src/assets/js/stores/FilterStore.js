@@ -16,7 +16,7 @@ class FilterStore extends ReduceStore {
   }
 
   reduce(state, action) {
-    switch(action.type) {
+    switch (action.type) {
       case FilterActionTypes.CHANGE_FILTER:
         return {
           ...state,
@@ -26,6 +26,11 @@ class FilterStore extends ReduceStore {
         return {
           ...state,
           showDone: !state.showDone
+        };
+      case FilterActionTypes.CLEAR_FILTER:
+        return {
+          ...state,
+          filter: ''
         };
       default:
         return state;

@@ -17,15 +17,21 @@ describe('FilterActions', function () {
 
   });
 
-  it('can change filter', function () {
+  it('can change and clear filter', function () {
 
     const nextFilter = 'next_filter';
 
     FilterActions.changeFilter(nextFilter);
 
-    const state = FilterStore.getState();
+    let state = FilterStore.getState();
 
     expect(state.filter).toBe(nextFilter);
+
+    FilterActions.clearFilter();
+
+    state = FilterStore.getState();
+
+    expect(state.filter).toBe('');
 
   });
 
