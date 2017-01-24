@@ -11,6 +11,20 @@ const Actions = {
     id,
     parentId,
     name
+  }),
+  removeCategories: ids => ({
+    type: CategoryActionTypes.REMOVE_CATEGORIES,
+    ids
+  }),
+  editCategory: (name, id) =>
+    ({
+      type: CategoryActionTypes.EDIT_CATEGORY,
+      name,
+      id
+    }),
+  toggleCategory: id => ({
+    type: CategoryActionTypes.TOGGLE_CATEGORY,
+    id
   })
 };
 
@@ -26,26 +40,16 @@ const ActionCreators = {
 
     TodoActions.removeTodos(toBeDeletedTodosIds);
 
-    Dispatcher.dispatch({
-      type: CategoryActionTypes.REMOVE_CATEGORIES,
-      ids: toBeDeletedCategoriesIds
-    });
+    Dispatcher.dispatch(Actions.removeCategories(toBeDeletedCategoriesIds));
 
   },
 
-  editCategory(name, id) {
-    Dispatcher.dispatch({
-      type: CategoryActionTypes.EDIT_CATEGORY,
-      name,
-      id
-    })
+  editCategory() {
+    Dispatcher.dispatch(Actions.editCategory(...arguments));
   },
 
   toggleCategory(id) {
-    Dispatcher.dispatch({
-      type: CategoryActionTypes.TOGGLE_CATEGORY,
-      id
-    })
+    Dispatcher.dispatch(Actions.toggleCategory(id))
   }
 };
 

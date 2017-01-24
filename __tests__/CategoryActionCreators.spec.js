@@ -43,18 +43,38 @@ describe('CategoryActions', function () {
     const categories = CategoryStore.getState();
     const todos = TodoStore.getState();
 
-    expect(categories['2']).toBeUndefined();
-    expect(categories['5']).toBeUndefined();
-    expect(categories['3']).toBeUndefined();
-    expect(categories['1']).toBeDefined();
-    expect(categories['4']).toBeDefined();
-
-    expect(todos['2']).toBeUndefined();
-    expect(todos['5']).toBeUndefined();
-    expect(todos['4']).toBeDefined();
-    expect(todos['1']).toBeDefined();
-    expect(todos['3']).toBeDefined();
+    expect(Object.keys(todos)).toEqual(['1', '3', '4']);
+    expect(Object.keys(categories)).toEqual(['1', '4'])
 
   });
+
+  it('can edit category name', function () {
+
+    const nextName = 'Category_1_NEXT';
+    const id = '5';
+
+    CategoryActions.editCategory(nextName, id);
+
+    const categories = CategoryStore.getState();
+    const category = categories[id];
+
+    expect(category.name).toBe(nextName);
+
+  });
+
+  it('can toggle category isComplete', function () {
+    const id = '4';
+
+    let categories = CategoryStore.getState();
+
+    expect(categories[id].isComplete).toBeFalsy();
+
+    CategoryActions.toggleCategory(id);
+
+    categories = CategoryStore.getState();
+
+    expect(categories[id].isComplete).toBeTruthy();
+
+  })
 
 });

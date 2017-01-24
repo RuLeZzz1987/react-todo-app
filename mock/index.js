@@ -9,10 +9,10 @@ export default {
     '4': {name: 'Todo_4', categoryId: '4', description: '', isComplete: false}
   },
   categoryStore: {
-    '5': {name: 'Category_1', parentId: undefined, isComplete: true, todos: [], subCategories: ['2']},
-    '1': {name: 'Category_2', parentId: undefined, isComplete: true, todos: ['1'], subCategories: ['4']},
-    '2': {name: 'Category_1_1', parentId: '5', isComplete: true, todos: ['5'], subCategories: ['3']},
-    '3': {name: 'Category_1_1_1', parentId: '2', isComplete: true, todos: ['2'], subCategories: []},
-    '4': {name: 'Category_2_1', parentId: '1', isComplete: true, todos: ['3', '4'], subCategories: []}
+    '5': {name: 'Category_1', parentId: undefined, isComplete: false, todos: [], subCategories: ['2']},
+    '1': {name: 'Category_2', parentId: undefined, isComplete: false, todos: ['1'], subCategories: ['4']},
+    '2': {name: 'Category_1_1', parentId: '5', isComplete: false, todos: ['5'], subCategories: ['3']},
+    '3': {name: 'Category_1_1_1', parentId: '2', isComplete: false, todos: ['2'], subCategories: []},
+    '4': {name: 'Category_2_1', parentId: '1', isComplete: false, todos: ['3', '4'], subCategories: []}
   },
 };

@@ -53,11 +53,13 @@
   },
   "jest": {
     "collectCoverage": false,
-    "collectCoverageFrom": ["**/*.{js,jsx}", "!**/node_modules/**", "!**/vendor/**"],
+    "collectCoverageFrom": ["src/assets/js/**/*.{js,jsx}", "!**/node_modules/**", "!**/vendor/**"],
     "coverageDirectory": "coverage",
     "coverageCollector": "jest-babel-istanbul",
     "modulePathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "/config/",
+      "/coverage/"
     ],
     "transformIgnorePatterns": [
       "/node_modules/"
