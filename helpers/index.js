@@ -1,0 +1,1 @@
+export { mockId } from './mockId';

@@ -1,6 +1,4 @@
 export default {
-  categories: [],
-
   todoStore: {
     '5': {name: 'Todo_5', categoryId: '2', description: '', isComplete: false},
     '1': {name: 'Todo_1', categoryId: '1', description: '', isComplete: false},

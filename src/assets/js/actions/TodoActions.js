@@ -4,16 +4,20 @@ import uuid from 'uuid';
 import { toggleCategoryIfComplete, checkAreComplete } from '../helpers/checkComplete';
 
 const Actions = {
+  addTodo: ({name, categoryId, id}) => ({
+    type: Types.ADD_TODO,
+    name,
+    categoryId,
+    id,
+  })
+};
+
+const ActionCreators = {
 
   addTodo(name, categoryId) {
     const id = uuid.v4();
 
-    Dispatcher.dispatch({
-      type: Types.ADD_TODO,
-      name,
-      categoryId,
-      id,
-    });
+    Dispatcher.dispatch(Actions.addTodo({id, name, categoryId}));
 
     toggleCategoryIfComplete(categoryId);
   },
@@ -59,4 +63,4 @@ const Actions = {
 
 };
 
-export default Actions;
+export default ActionCreators;
