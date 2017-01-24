@@ -3,6 +3,7 @@ const Types = {
   EDIT_CATEGORY: Symbol('EDIT_CATEGORY'),
   REMOVE_CATEGORIES: Symbol('REMOVE_CATEGORIES'),
   TOGGLE_CATEGORY: Symbol('TOGGLE_CATEGORY'),
+  MOVE_TO: Symbol('MOVE_TO'),
 };
 
 export default Types

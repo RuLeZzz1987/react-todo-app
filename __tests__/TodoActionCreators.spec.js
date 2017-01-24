@@ -46,13 +46,65 @@ describe('TodoActions', function () {
 
   it('can toggle Todo', function () {
 
+    const todosIds = ['5', '2'];
+    const affectedCategoriesIds = ['5', '2', '3'];
+
+    TodoActions.toggleTodo(todosIds[0]);
+    TodoActions.toggleTodo(todosIds[1]);
+
+    const categories = CategoryStore.getState();
+    const todos = TodoStore.getState();
+
+    expect(todos[todosIds[0]].isComplete).toBeTruthy();
+    expect(todos[todosIds[1]].isComplete).toBeTruthy();
+
+    expect(categories[affectedCategoriesIds[0]].isComplete).toBeTruthy();
+    expect(categories[affectedCategoriesIds[1]].isComplete).toBeTruthy();
+    expect(categories[affectedCategoriesIds[2]].isComplete).toBeTruthy();
+
   });
 
   it('can edit Todo', function () {
 
+    const name = 'Todo_1_Next_Name';
+    const id = '5';
+    const description = 'Next Description';
+    const isComplete = false;
+
+    TodoActions.editTodo({name, id, description, isComplete});
+
+    const todos = TodoStore.getState();
+    const todo = todos[id];
+
+    expect(todo.name).toBe(name);
+    expect(todo.description).toBe(description);
+    expect(todo.isComplete).toBe(isComplete);
+
   });
 
   it('can move Todo to other Category', function () {
+
+    const todoId = '5';
+    const sourceCategoryId = '2';
+    const targetCategoryId = '5';
+
+    let categories = CategoryStore.getState();
+
+    expect(categories[sourceCategoryId].todos).toContain(todoId);
+
+    TodoActions.moveTo({
+      id: todoId,
+      sourceCategoryId,
+      targetCategoryId
+    });
+
+    const todos = TodoStore.getState();
+    categories = CategoryStore.getState();
+
+    expect(todos[todoId].categoryId).toBe(targetCategoryId);
+
+    expect(categories[sourceCategoryId].todos).not.toContain(todoId);
+    expect(categories[targetCategoryId].todos).toContain(todoId);
 
   });
 

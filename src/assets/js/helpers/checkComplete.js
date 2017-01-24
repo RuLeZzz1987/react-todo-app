@@ -18,7 +18,7 @@ const areItemsComplete = state => ids => ids.every(id => state[id].isComplete);
 const areSubItemsComplete = categories => todos => (subCategoriesIds, todosIds) =>
   areItemsComplete(categories)(subCategoriesIds) && areItemsComplete(todos)(todosIds);
 
-const getTodo = id => TodoStore.getState()[id] || {};
+const getTodo = id => TodoStore.getState()[id];
 
 function toggler(id) {
   return function (allTodos) {

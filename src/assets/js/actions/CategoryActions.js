@@ -25,6 +25,12 @@ const Actions = {
   toggleCategory: id => ({
     type: CategoryActionTypes.TOGGLE_CATEGORY,
     id
+  }),
+  moveTo: ({todoId, sourceId, targetId}) => ({
+    type: CategoryActionTypes.MOVE_TO,
+    todoId,
+    sourceId,
+    targetId,
   })
 };
 
@@ -50,6 +56,10 @@ const ActionCreators = {
 
   toggleCategory(id) {
     Dispatcher.dispatch(Actions.toggleCategory(id))
+  },
+
+  moveTodoToOther({todoId, sourceId, targetId}) {
+    Dispatcher.dispatch(Actions.moveTo({todoId, sourceId, targetId}))
   }
 };
 

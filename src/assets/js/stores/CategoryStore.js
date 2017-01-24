@@ -25,13 +25,15 @@ class CategoryStore extends ReduceStore {
         return addTodo(state, action);
       case CategoryTypes.TOGGLE_CATEGORY:
         return toggleCategory(state, action);
+      case CategoryTypes.MOVE_TO:
+        return moveTodoToOther(state, action);
       default:
         return state;
     }
   }
 }
 
-function toggleCategory(state, { id }) {
+function toggleCategory(state, {id}) {
   return {
     ...state,
     [id]: {
@@ -63,12 +65,12 @@ function addCategory(state, {name, parentId, id}) {
 
 function addTodo(state, {id, categoryId}) {
   return {
-      ...state,
-      [categoryId]: {
-        ...state[categoryId],
-        todos: state[categoryId].todos.concat(id)
-      }
+    ...state,
+    [categoryId]: {
+      ...state[categoryId],
+      todos: state[categoryId].todos.concat(id)
     }
+  }
 }
 
 function removeCategories(state, {ids}) {
@@ -89,6 +91,20 @@ function editCategory(state, {name, id}) {
       ...state[id],
       name
     },
+  }
+}
+
+function moveTodoToOther(state, {todoId, targetId, sourceId}) {
+  return {
+    ...state,
+    [targetId]: {
+      ...state[targetId],
+      todos: state[targetId].todos.concat(todoId)
+    },
+    [sourceId]: {
+      ...state[sourceId],
+      todos: state[sourceId].todos.filter(todoId => todoId != todoId)
+    }
   }
 }
 
