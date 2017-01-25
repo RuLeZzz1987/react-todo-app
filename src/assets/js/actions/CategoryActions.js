@@ -1,9 +1,11 @@
 import Dispatcher from "../dispatcher";
-import CategoryActionTypes from "../constants/CategoryActionTypes";
+import { CategoryActionTypes, CATEGORY } from "../constants";
 import { collectNestedCategoriesIds, collectNestedTodoIds } from "../helpers";
 import { CategoryStore } from "../stores";
+import ErrorActions from './ErrorActions';
 import TodoActions from './TodoActions';
 import uuid from 'uuid';
+
 
 const Actions = {
   addCategory: ({name, parentId, id}) => ({
@@ -35,8 +37,22 @@ const Actions = {
 };
 
 const ActionCreators = {
-  addCategory(name, parentId) {
-    Dispatcher.dispatch(Actions.addCategory({name, parentId, id: uuid.v4()}))
+  addCategory(name, parentId, showErrorInPopup = false) {
+
+    const state = CategoryStore.getState();
+    const ids = Object.keys(state);
+    const isNameExists = ids.length == 0 ? false :
+      ids.reduce((siblings, id) => state[id].parentId == parentId ? siblings.concat(state[id]) : siblings, [])
+        .some(category => category.name == name);
+
+    if (isNameExists) {
+      ErrorActions.setErrorType(CATEGORY);
+      ErrorActions.setShowInPopup(showErrorInPopup);
+      ErrorActions.setError(`Category ${name} is already exist`);
+    } else {
+      Dispatcher.dispatch(Actions.addCategory({name, parentId, id: uuid.v4()}))
+    }
+
   },
 
   removeCategory(id) {

@@ -1,25 +1,38 @@
+import { mockId } from '../helpers';
 import { CategoryActions } from '../src/assets/js/actions';
-
+import { CategoryStore, TodoStore, ErrorStore } from '../src/assets/js/stores';
 import mock from '../mock';
-
-jest.mock('uuid');
-
-import uuid from 'uuid';
-const CategoryStore = require('../src/assets/js/stores').CategoryStore;
-const TodoStore = require('../src/assets/js/stores').TodoStore;
-
-const mockId = id => uuid.v4.mockImplementation(() => id);
 
 describe('CategoryActions', function () {
 
   beforeEach(function () {
     CategoryStore._state = mock.categoryStore;
     TodoStore._state = mock.todoStore;
+    ErrorStore._state = ErrorStore.getInitialState();
+  });
+
+  it('set error when category is already exist in the current part of the categories tree', function () {
+
+    const id = '5';
+    const category = mock.categoryStore[id];
+    const categoryId = 'NEXT_CATEGORY_ID';
+
+    mockId(categoryId);
+    CategoryActions.addCategory(category.name);
+
+    const error = ErrorStore.getState();
+    const state = CategoryStore.getState();
+
+    expect(error.isError).toBeTruthy();
+    expect(error.message.length).not.toBe(0);
+
+    expect(state[categoryId]).toBeUndefined();
+
   });
 
   it('can add root category', function () {
 
-    const name = 'Category_1';
+    const name = 'Category_NEXT';
     const id = '11111';
     mockId(id);
 
@@ -30,9 +43,26 @@ describe('CategoryActions', function () {
 
     expect(category).toBeDefined();
     expect(category.name).toBe(name);
+
     expect(category.parentId).toBeUndefined();
     expect(category.subCategories).toEqual([]);
     expect(category.todos).toEqual([]);
+
+  });
+
+  it('can add subCategory to already exist one', function () {
+
+    const name = 'Category_1_2_2';
+    const id = '11111';
+    mockId(id);
+    const parentId = '5';
+
+    CategoryActions.addCategory(name, parentId);
+
+    const state = CategoryStore.getState();
+
+    expect(state[id].parentId).toBe(parentId);
+    expect(state[parentId].subCategories).toContain(id);
 
   });
 
