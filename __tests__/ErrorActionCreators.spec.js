@@ -14,10 +14,16 @@ describe('ErrorActions', function () {
 
     ErrorActions.setError(message);
 
-    const state = ErrorStore.getState();
+    let state = ErrorStore.getState();
 
     expect(state.isError).toBeTruthy();
     expect(state.message).toBe(message);
+
+    ErrorActions.clearError();
+
+    state = ErrorStore.getState();
+
+    expect(state).toEqual(ErrorStore.getInitialState());
 
   });
 
