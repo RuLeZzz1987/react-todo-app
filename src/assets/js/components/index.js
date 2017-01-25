@@ -22,13 +22,11 @@ class App extends Component {
     render() {
         return (
             <div>
-                <Header/>
+                <Header
+                    todoId={this.props.params.todoId}
+                />
                 <Main
                     params={this.props.params}
-                    todos={this.props.todos}
-                    showDone={this.state.showDone}
-                    categories={this.state.filteredCategories}
-                    updateCategories={this.updateCategories}
                 />
             </div>
         )

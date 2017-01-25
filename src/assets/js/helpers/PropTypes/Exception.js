@@ -4,5 +4,6 @@ import { CATEGORY, TODO } from '../../constants';
 export default PropTypes.shape({
   message: PropTypes.string.isRequired,
   type: PropTypes.oneOf([CATEGORY, TODO]),
-  popup: PropTypes.bool.isRequired,
+  showInPopup: PropTypes.bool.isRequired,
+  isError: PropTypes.bool.isRequired
 });

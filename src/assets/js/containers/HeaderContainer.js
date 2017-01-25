@@ -1,10 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { TodoStore, FilterStore } from '../stores';
 import { Container } from 'flux/utils';
 import Header from '../components/header';
 import { FilterActions } from '../actions';
 
 class HeaderContainer extends Component {
+
+  static propTypes = {
+    todoId: PropTypes.string
+  };
 
   static getStores() {
     return [TodoStore, FilterStore];

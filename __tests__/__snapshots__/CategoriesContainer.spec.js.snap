@@ -1,0 +1,55 @@
+exports[`CategoriesContainer can render Categories tree 1`] = `
+<aside
+  className="categories">
+  <section
+    className="editor-area">
+    <div
+      className="editor">
+      <input
+        name="category"
+        onChange={[Function]}
+        placeholder="Enter category title"
+        type="text"
+        value="" />
+      <div
+        className="add-button"
+        onClick={[Function]}>
+        <span
+          className="add-label">
+          ADD
+        </span>
+      </div>
+    </div>
+  </section>
+  <section
+    className="categories-tree" />
+</aside>
+`;
+
+exports[`CategoriesContainer can render empty Categories block 1`] = `
+<aside
+  className="categories">
+  <section
+    className="editor-area">
+    <div
+      className="editor">
+      <input
+        name="category"
+        onChange={[Function]}
+        placeholder="Enter category title"
+        type="text"
+        value="" />
+      <div
+        className="add-button"
+        onClick={[Function]}>
+        <span
+          className="add-label">
+          ADD
+        </span>
+      </div>
+    </div>
+  </section>
+  <section
+    className="categories-tree" />
+</aside>
+`;

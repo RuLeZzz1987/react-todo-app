@@ -1,12 +1,15 @@
-import React, { PureComponent, PropTypes } from 'react';
-import { CATEGORY } from '../../constants';
-import { Link } from 'react-router';
-import { hide, invisible } from '../../helpers/hide';
+import React, { PureComponent, PropTypes } from "react";
+import { Link } from "react-router";
+import { hide, invisible } from "../../helpers/hide";
+import { Category as CategoryContainer } from "../../containers";
 
 class Category extends PureComponent {
 
   static propTypes = {
-    category: PropTypes.object.isRequired,
+    categories: PropTypes.object,
+    id: PropTypes.string.isRequired,
+    selectedId: PropTypes.string,
+
     changeCategoryName: PropTypes.func.isRequired,
     removeCategory: PropTypes.func.isRequired,
     addChild: PropTypes.func.isRequired,
@@ -78,13 +81,13 @@ class Category extends PureComponent {
   }
 
   render() {
-    const isSelected = this.props.category.id == this.props.selectedCategory;
+    const isSelected = this.props.id == this.props.selectedId;
     const expandedClassName = this.state.isCollapsed ? 'fa fa-plus' : 'fa fa-minus';
-    const hideExpandedBtn = this.props.category.children.filter(el => el.type == CATEGORY).length == 0;
+    const hideExpandedBtn = this.props.category.subCategories.length == 0;
 
     return (
       <section>
-        <Link to={`/${this.props.category.id}`}>
+        <Link to={`/${this.props.id}`}>
           <section
             style={{backgroundColor: isSelected ? '#f0f757' : '#fff'}}
             className="category"
@@ -140,20 +143,14 @@ class Category extends PureComponent {
           </section>
         </Link>
         <section className={hide(this.state.isCollapsed, 'category-children')}>
-          {this.props.category.children
-            .filter(category => category.type == CATEGORY && (this.props.showDone ? true : !category.isComplete))
+          {this.props.category.subCategories
             .reverse()
-            .map(category => <Category
-                key={category.id}
-                moveTo={this.props.moveTo}
+            .map(id =>
+              <CategoryContainer
+                id={id}
+                key={id}
+                selectedId={this.props.selectedId}
                 isTodoFound={this.props.isTodoFound}
-                showDone={this.props.showDone}
-                addChild={this.props.addChild}
-                selectedTodoId={this.props.selectedTodoId}
-                selectedCategory={this.props.selectedCategory}
-                category={category}
-                removeCategory={this.props.removeCategory}
-                changeCategoryName={this.props.changeCategoryName}
               />
             )}
         </section>

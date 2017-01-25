@@ -20,9 +20,9 @@ class Editor extends Component {
             name: ''
         };
         
-        this.add = () => this.props.add(this.state.name.trim(), this.clearName);
+        this.add = () => this.props.add(this.state.name.trim(), undefined, false, this.clearName);
         this.onChange = e => {
-            if (this.props.error) {
+            if (this.props.error.isError) {
                 this.props.clearError();
             }
             this.setState({name: e.target.value});
@@ -31,7 +31,7 @@ class Editor extends Component {
     }
     
     render() {
-        const showError = this.props.error && this.props.error.type == this.props.type && !this.props.error.popup;
+        const showError = this.props.error.isError && this.props.error.type == this.props.type && !this.props.error.showInPopup;
         
         return (
             <Container

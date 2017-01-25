@@ -28,6 +28,7 @@
     "jest-babel-istanbul": "^0.1.0",
     "json-loader": "^0.5.4",
     "node-sass": "^3.10.1",
+    "react-test-renderer": "^15.4.2",
     "react-transform-hmr": "^1.0.4",
     "resolve-url-loader": "^1.6.0",
     "sass-loader": "^4.0.2",
@@ -52,8 +53,13 @@
     "uuid": "^2.0.3"
   },
   "jest": {
+    "automock": false,
     "collectCoverage": true,
-    "collectCoverageFrom": ["src/assets/js/**/*.{js,jsx}", "!**/node_modules/**", "!**/vendor/**"],
+    "collectCoverageFrom": [
+      "src/assets/js/**/*.{js,jsx}",
+      "!**/node_modules/**",
+      "!**/vendor/**"
+    ],
     "coverageDirectory": "coverage",
     "coverageCollector": "jest-babel-istanbul",
     "modulePathIgnorePatterns": [

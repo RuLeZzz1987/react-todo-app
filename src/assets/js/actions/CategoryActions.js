@@ -5,7 +5,7 @@ import { CategoryStore } from "../stores";
 import ErrorActions from './ErrorActions';
 import TodoActions from './TodoActions';
 import uuid from 'uuid';
-
+import { isCategoryNameExists } from '../helpers';
 
 const Actions = {
   addCategory: ({name, parentId, id}) => ({
@@ -36,21 +36,21 @@ const Actions = {
   })
 };
 
+const handleError = type => showInPopup => message => {
+  ErrorActions.setErrorType(type);
+  ErrorActions.setShowInPopup(showInPopup);
+  ErrorActions.setError(message);
+};
+
 const ActionCreators = {
-  addCategory(name, parentId, showErrorInPopup = false) {
+  addCategory({name, parentId, showErrorInPopup = false, callback}) {
 
-    const state = CategoryStore.getState();
-    const ids = Object.keys(state);
-    const isNameExists = ids.length == 0 ? false :
-      ids.reduce((siblings, id) => state[id].parentId == parentId ? siblings.concat(state[id]) : siblings, [])
-        .some(category => category.name == name);
 
-    if (isNameExists) {
-      ErrorActions.setErrorType(CATEGORY);
-      ErrorActions.setShowInPopup(showErrorInPopup);
-      ErrorActions.setError(`Category ${name} is already exist`);
+    if (isCategoryNameExists(CategoryStore.getState())(parentId)(name)) {
+      handleError(CATEGORY)(showErrorInPopup)(`Category ${name} is already exist`);
     } else {
-      Dispatcher.dispatch(Actions.addCategory({name, parentId, id: uuid.v4()}))
+      Dispatcher.dispatch(Actions.addCategory({name, parentId, id: uuid.v4()}));
+      if (typeof callback == 'function') callback();
     }
 
   },
@@ -66,8 +66,8 @@ const ActionCreators = {
 
   },
 
-  editCategory() {
-    Dispatcher.dispatch(Actions.editCategory(...arguments));
+  editCategory(name, id) {
+    Dispatcher.dispatch(Actions.editCategory(name, id));
   },
 
   toggleCategory(id) {

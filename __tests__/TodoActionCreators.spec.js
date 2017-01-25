@@ -19,7 +19,7 @@ describe('TodoActions', function () {
     const todoName = 'Sample_Todo_1';
 
     mockId(categoryId);
-    CategoryActions.addCategory(categoryName);
+    CategoryActions.addCategory({name: categoryName});
 
     let categories = CategoryStore.getState();
 

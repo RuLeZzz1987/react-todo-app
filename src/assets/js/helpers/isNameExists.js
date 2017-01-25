@@ -1,9 +1,6 @@
-import { TODO } from '../constants';
-
-const mapIsNameExists = (type, name, items) => {
-    return items.some(item => {
-        return item.type == type && item.name == name
-    });
+export const isCategoryNameExists = categories => parentId => name => {
+  const ids = Object.keys(categories);
+  return ids.length == 0 ? false :
+    ids.reduce((siblings, id) => categories[id].parentId == parentId ? siblings.concat(categories[id]) : siblings, [])
+      .some(category => category.name == name);
 };
-
-export const isNameExists = type => name => (items, item) => type == TODO ? mapIsNameExists(type, name, item.children) : mapIsNameExists(type, name, items);
