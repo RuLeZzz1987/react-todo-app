@@ -13,6 +13,11 @@ class Header extends PureComponent {
     clearFilter: PropTypes.func.isRequired,
     filter: PropTypes.string.isRequired,
     showDone: PropTypes.bool.isRequired,
+    title: PropTypes.string
+  };
+
+  static defaultProps = {
+    title: 'To-Do List'
   };
 
   render() {
@@ -20,7 +25,7 @@ class Header extends PureComponent {
       <header style={{height: '13vh'}}>
         <section className="header">
           <h1 className="project-title">
-            To-Do List
+            {this.props.title}
           </h1>
           <section className="filter-controls">
             <Checkbox

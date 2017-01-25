@@ -10,15 +10,27 @@ class HeaderContainer extends Component {
     return [TodoStore, FilterStore];
   }
 
-  static calculateState() {
+  static calculateState(prevState, props) {
     const filterState = FilterStore.getState();
     const todos = TodoStore.getState();
     const todosIds = Object.keys(todos);
 
+    if (props.todoId) {
+      const todo = todosIds.reduce((todo, id)=>{
+        if (id = props.todoId) {
+          todo = todos[id];
+        }
+        return todo;
+      });
+
+      var title = todo && todo.name;
+    }
+
     return {
       ...filterState,
       completed: todosIds.reduce((sum, todoId) => todos[todoId].isComplete ? ++sum : sum, 0),
-      total: todosIds.length
+      total: todosIds.length,
+      title,
     };
   }
 
@@ -32,4 +44,4 @@ class HeaderContainer extends Component {
   }
 }
 
-export default Container.create(HeaderContainer);
+export default Container.create(HeaderContainer, {withProps: true});
