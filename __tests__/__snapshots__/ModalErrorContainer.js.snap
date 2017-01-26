@@ -1,0 +1,95 @@
+exports[`ModalErrorContainer can render hidden modal with error message 1`] = `
+<div
+  className="modal"
+  onClick={[Function]}
+  style={
+    Object {
+      "display": "none",
+    }
+  }>
+  <div
+    className="modal-content">
+    <div
+      className="modal-header">
+      <span
+        className="close"
+        onClick={[Function]}>
+        ×
+      </span>
+      <h2>
+        Something goes wrong!
+      </h2>
+    </div>
+    <div
+      className="modal-body">
+      <p>
+        error in popup
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalErrorContainer can render hidden modal without error 1`] = `
+<div
+  className="modal"
+  onClick={[Function]}
+  style={
+    Object {
+      "display": "none",
+    }
+  }>
+  <div
+    className="modal-content">
+    <div
+      className="modal-header">
+      <span
+        className="close"
+        onClick={[Function]}>
+        ×
+      </span>
+      <h2>
+        Something goes wrong!
+      </h2>
+    </div>
+    <div
+      className="modal-body">
+      <p>
+        
+      </p>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`ModalErrorContainer can render shown modal with error message 1`] = `
+<div
+  className="modal"
+  onClick={[Function]}
+  style={
+    Object {
+      "display": "block",
+    }
+  }>
+  <div
+    className="modal-content">
+    <div
+      className="modal-header">
+      <span
+        className="close"
+        onClick={[Function]}>
+        ×
+      </span>
+      <h2>
+        Something goes wrong!
+      </h2>
+    </div>
+    <div
+      className="modal-body">
+      <p>
+        error in popup
+      </p>
+    </div>
+  </div>
+</div>
+`;

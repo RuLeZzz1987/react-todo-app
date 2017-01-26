@@ -9,19 +9,12 @@ class ModalError extends Component {
     error: Exception,
   };
 
-  static defaultProps = {
-    error: {
-      message: '',
-      popup: false
-    }
-  };
-
   render() {
       return (
         <Modal
           backdrop
           onClose={this.props.onClose}
-          show={!!this.props.error.popup}
+          show={!!this.props.error.showInPopup}
         >
           <Modal.Header
             closeButton

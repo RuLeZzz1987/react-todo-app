@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes } from "react";
-import Editor from "../common/Editor";
+import { Editor } from "../../containers";
 import { TODO } from "../../constants";
 import TodoItem from "../common/Todo";
 import { Todo } from "../../models";
@@ -18,48 +18,6 @@ class Todos extends PureComponent {
     category: PropTypes.object,
   };
 
-  constructor(props) {
-    super(props);
-
-    this.validate = this.props.validateName(TODO);
-    this.setError = this.props.setError(TODO);
-
-    this.add = (name, cb) => {
-      if (!isAlphaNumeric(name)) return this.setError('To-Do item name should contains at least one alphanumeric char', false);
-      if (!this.validate(this.props.category.id)(name)) {
-        this.props.updateItems({
-          id: this.props.category.id,
-          mapper: function (categories, cb) {
-            const nextItem = this.addChild(new Todo({name}));
-            categories.push(nextItem);
-            return nextItem
-          }
-        }, cb);
-      } else {
-        this.setError('Current To-Do item already exists', false)
-      }
-    };
-
-    this.update = categoryId => name => (id, updater, e) => {
-      if (!this.validate(categoryId)(name)) {
-        this.props.updateItems({
-          id: categoryId,
-          mapper: function (categories) {
-            const nextItem = this.updateChildren(this.children.map(item => item.id == id ? updater.call(item) : item));
-            categories.push(nextItem);
-            return nextItem;
-          }
-        });
-      } else {
-        this.setError('Current To-Do item already exists', true);
-        e.preventDefault();
-      }
-    };
-
-    this.updateTodo = this.update(this.props.category && this.props.category.id);
-
-    this.toggleTodo = id => this.updateTodo(id, Todo.prototype.toggleIsComplete);
-  }
 
   render() {
     if (!this.props.category) return (null);
@@ -79,12 +37,10 @@ class Todos extends PureComponent {
         </h2>
         <section className="editor-area">
           <Editor
-            error={this.props.error}
             type={TODO}
             placeholder={'Enter TODO title'}
             add={this.add}
-            clearError={this.props.clearError}
-          />
+           />
         </section>
         <section className="list">
           {this.props.category && this.props.category.children
