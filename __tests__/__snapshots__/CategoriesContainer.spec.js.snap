@@ -22,7 +22,206 @@ exports[`CategoriesContainer can render Categories tree 1`] = `
     </div>
   </section>
   <section
-    className="categories-tree" />
+    className="categories-tree">
+    <section>
+      <a
+        onClick={[Function]}
+        style={Object {}}>
+        <section
+          className="category"
+          style={
+            Object {
+              "backgroundColor": "#fff",
+            }
+          }>
+          <i
+            className="fa fa-minus"
+            onClick={[Function]} />
+          <i
+            className="fa fa-check invisible" />
+          <h3
+            className="displayed-name"
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}>
+            Category_2
+          </h3>
+          <i
+            className="fa fa-edit"
+            onClick={[Function]} />
+          <div
+            className="remove-add-controls">
+            <i
+              className="fa fa-trash"
+              onClick={[Function]} />
+            <i
+              className="fa fa-plus"
+              onClick={[Function]} />
+          </div>
+        </section>
+      </a>
+      <section
+        className="category-children">
+        <section>
+          <a
+            onClick={[Function]}
+            style={Object {}}>
+            <section
+              className="category"
+              style={
+                Object {
+                  "backgroundColor": "#fff",
+                }
+              }>
+              <i
+                className="fa fa-minus invisible"
+                onClick={[Function]} />
+              <i
+                className="fa fa-check invisible" />
+              <h3
+                className="displayed-name"
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}>
+                Category_2_1
+              </h3>
+              <i
+                className="fa fa-edit"
+                onClick={[Function]} />
+              <div
+                className="remove-add-controls">
+                <i
+                  className="fa fa-trash"
+                  onClick={[Function]} />
+                <i
+                  className="fa fa-plus"
+                  onClick={[Function]} />
+              </div>
+            </section>
+          </a>
+          <section
+            className="category-children" />
+        </section>
+      </section>
+    </section>
+    <section>
+      <a
+        onClick={[Function]}
+        style={Object {}}>
+        <section
+          className="category"
+          style={
+            Object {
+              "backgroundColor": "#fff",
+            }
+          }>
+          <i
+            className="fa fa-minus"
+            onClick={[Function]} />
+          <i
+            className="fa fa-check invisible" />
+          <h3
+            className="displayed-name"
+            onMouseOut={[Function]}
+            onMouseOver={[Function]}>
+            Category_1
+          </h3>
+          <i
+            className="fa fa-edit"
+            onClick={[Function]} />
+          <div
+            className="remove-add-controls">
+            <i
+              className="fa fa-trash"
+              onClick={[Function]} />
+            <i
+              className="fa fa-plus"
+              onClick={[Function]} />
+          </div>
+        </section>
+      </a>
+      <section
+        className="category-children">
+        <section>
+          <a
+            onClick={[Function]}
+            style={Object {}}>
+            <section
+              className="category"
+              style={
+                Object {
+                  "backgroundColor": "#fff",
+                }
+              }>
+              <i
+                className="fa fa-minus"
+                onClick={[Function]} />
+              <i
+                className="fa fa-check invisible" />
+              <h3
+                className="displayed-name"
+                onMouseOut={[Function]}
+                onMouseOver={[Function]}>
+                Category_1_1
+              </h3>
+              <i
+                className="fa fa-edit"
+                onClick={[Function]} />
+              <div
+                className="remove-add-controls">
+                <i
+                  className="fa fa-trash"
+                  onClick={[Function]} />
+                <i
+                  className="fa fa-plus"
+                  onClick={[Function]} />
+              </div>
+            </section>
+          </a>
+          <section
+            className="category-children">
+            <section>
+              <a
+                onClick={[Function]}
+                style={Object {}}>
+                <section
+                  className="category"
+                  style={
+                    Object {
+                      "backgroundColor": "#fff",
+                    }
+                  }>
+                  <i
+                    className="fa fa-minus invisible"
+                    onClick={[Function]} />
+                  <i
+                    className="fa fa-check invisible" />
+                  <h3
+                    className="displayed-name"
+                    onMouseOut={[Function]}
+                    onMouseOver={[Function]}>
+                    Category_1_1_1
+                  </h3>
+                  <i
+                    className="fa fa-edit"
+                    onClick={[Function]} />
+                  <div
+                    className="remove-add-controls">
+                    <i
+                      className="fa fa-trash"
+                      onClick={[Function]} />
+                    <i
+                      className="fa fa-plus"
+                      onClick={[Function]} />
+                  </div>
+                </section>
+              </a>
+              <section
+                className="category-children" />
+            </section>
+          </section>
+        </section>
+      </section>
+    </section>
+  </section>
 </aside>
 `;
 

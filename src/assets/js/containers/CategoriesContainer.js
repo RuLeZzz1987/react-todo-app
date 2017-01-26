@@ -13,16 +13,16 @@ class CategoriesContainer extends Component {
 
   static calculateState(prevState, props) {
     const { categoryId, todoId } = props.params;
-
     const todos = TodoStore.getState();
     const filters = FilterStore.getState();
-    let ids = Object.keys(
-      reduceWithCondition(
-        reduceWithCondition(CategoryStore.getState())('parentId', undefined)
-      )('isComplete', filters.showDone));
+    let categories = reduceWithCondition(CategoryStore.getState())('parentId', undefined);
+
+    if (!filters.showDone) {
+      categories = reduceWithCondition(categories)('isComplete', false)
+    }
 
     return {
-      ids,
+      ids: Object.keys(categories),
       selectedId: props.categoryId,
       isTodoFound: Object.keys(todos).some(id => id == todoId && todos[id].parentId == categoryId)
     }
