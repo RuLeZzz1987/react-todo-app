@@ -1,0 +1,1 @@
+exports[`CategoryContainer should return null on category missing 1`] = `null`;

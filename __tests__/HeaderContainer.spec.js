@@ -1,8 +1,8 @@
-import React from 'react';
-import { Header } from '../src/assets/js/containers';
-import renderer from 'react-test-renderer';
-import { TodoStore, FilterStore } from '../src/assets/js/stores';
-import mock from '../mock';
+import React from "react";
+import { Header } from "../src/assets/js/containers";
+import renderer from "react-test-renderer";
+import { TodoStore } from "../src/assets/js/stores";
+import mock from "../mock";
 
 describe('HeaderContainer', function () {
 
