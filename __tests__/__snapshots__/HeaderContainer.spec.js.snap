@@ -1,0 +1,111 @@
+exports[`HeaderContainer can render header 1`] = `
+<header
+  style={
+    Object {
+      "height": "13vh",
+    }
+  }>
+  <section
+    className="header">
+    <h1
+      className="project-title">
+      To-Do List
+    </h1>
+    <section
+      className="filter-controls">
+      <div
+        className="show-active-checkbox">
+        <input
+          defaultChecked={true}
+          onChange={[Function]}
+          type="checkbox" />
+        <label>
+          Show done
+        </label>
+      </div>
+      <div
+        className="search-box">
+        <input
+          onChange={[Function]}
+          placeholder="Search"
+          type="text"
+          value="" />
+        <span
+          className="clear-button"
+          onClick={[Function]}>
+          <span
+            className="cross">
+            X
+          </span>
+        </span>
+      </div>
+    </section>
+  </section>
+  <div
+    className="progress-bar">
+    <div
+      className="inner-bar"
+      style={
+        Object {
+          "width": "NaN%",
+        }
+      } />
+  </div>
+</header>
+`;
+
+exports[`HeaderContainer can render header with todos name 1`] = `
+<header
+  style={
+    Object {
+      "height": "13vh",
+    }
+  }>
+  <section
+    className="header">
+    <h1
+      className="project-title">
+      Todo_5
+    </h1>
+    <section
+      className="filter-controls">
+      <div
+        className="show-active-checkbox">
+        <input
+          defaultChecked={true}
+          onChange={[Function]}
+          type="checkbox" />
+        <label>
+          Show done
+        </label>
+      </div>
+      <div
+        className="search-box">
+        <input
+          onChange={[Function]}
+          placeholder="Search"
+          type="text"
+          value="" />
+        <span
+          className="clear-button"
+          onClick={[Function]}>
+          <span
+            className="cross">
+            X
+          </span>
+        </span>
+      </div>
+    </section>
+  </section>
+  <div
+    className="progress-bar">
+    <div
+      className="inner-bar"
+      style={
+        Object {
+          "width": "20%",
+        }
+      } />
+  </div>
+</header>
+`;

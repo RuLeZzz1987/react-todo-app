@@ -4,7 +4,7 @@ export default {
     '1': {name: 'Todo_1', categoryId: '1', description: '', isComplete: false},
     '2': {name: 'Todo_2', categoryId: '3', description: '', isComplete: false},
     '3': {name: 'Todo_3', categoryId: '4', description: '', isComplete: false},
-    '4': {name: 'Todo_4', categoryId: '4', description: '', isComplete: false}
+    '4': {name: 'Todo_4', categoryId: '4', description: '', isComplete: true}
   },
   categoryStore: {
     '5': {name: 'Category_1', parentId: undefined, isComplete: false, todos: [], subCategories: ['2']},
