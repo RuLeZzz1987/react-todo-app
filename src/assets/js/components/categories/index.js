@@ -3,9 +3,9 @@ import { Editor } from "../../containers";
 import { Category } from "../../containers";
 import { CATEGORY } from "../../constants";
 
-const { bool, func, arrayOf, string } = PropTypes;
+const { bool, func, arrayOf, string, object } = PropTypes;
 
-const Categories = ({addCategory, ids, selectedId, isTodoFound}) => {
+const Categories = ({addCategory, ids, params, isTodoFound}) => {
   return (
     <aside className="categories">
       <section className="editor-area">
@@ -20,7 +20,7 @@ const Categories = ({addCategory, ids, selectedId, isTodoFound}) => {
           <Category
             id={id}
             key={id}
-            selectedId={selectedId}
+            params={params}
             isTodoFound={isTodoFound}
           />
         )}
@@ -30,7 +30,7 @@ const Categories = ({addCategory, ids, selectedId, isTodoFound}) => {
 };
 
 Categories.propTypes = {
-  selectedId: string,
+  params: object.isRequired,
   addCategory: func.isRequired,
   ids: arrayOf(string).isRequired,
   isTodoFound: bool.isRequired,

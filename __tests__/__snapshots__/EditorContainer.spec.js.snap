@@ -1,0 +1,113 @@
+exports[`EditorContainer can render editor container with error 1`] = `
+<div
+  className="editor">
+  <input
+    name="category"
+    onChange={[Function]}
+    placeholder="Enter category title"
+    type="text"
+    value="" />
+  <label
+    htmlFor="category">
+    test message in label
+  </label>
+  <div
+    className="add-button"
+    onClick={[Function]}>
+    <span
+      className="add-label">
+      ADD
+    </span>
+  </div>
+</div>
+`;
+
+exports[`EditorContainer can render editor container with error not matched type 1`] = `
+<div
+  className="editor"
+  style={
+    Object {
+      "width": "270px",
+    }
+  }>
+  <input
+    name="category"
+    onChange={[Function]}
+    placeholder="Enter category title"
+    type="text"
+    value="" />
+  <div
+    className="add-button"
+    onClick={[Function]}>
+    <span
+      className="add-label">
+      ADD
+    </span>
+  </div>
+</div>
+`;
+
+exports[`EditorContainer can render editor container with error shows in popup 1`] = `
+<div
+  className="editor">
+  <input
+    name="category"
+    onChange={[Function]}
+    placeholder="Enter category title"
+    type="text"
+    value="" />
+  <div
+    className="add-button"
+    onClick={[Function]}>
+    <span
+      className="add-label">
+      ADD
+    </span>
+  </div>
+</div>
+`;
+
+exports[`EditorContainer can render minimal editor container with mocked add function with type and width 1`] = `
+<div
+  className="editor">
+  <input
+    name="category"
+    onChange={[Function]}
+    placeholder="Enter category title"
+    type="text"
+    value="" />
+  <div
+    className="add-button"
+    onClick={[Function]}>
+    <span
+      className="add-label">
+      ADD
+    </span>
+  </div>
+</div>
+`;
+
+exports[`EditorContainer can render minimal editor container with mocked add function with type and width 2`] = `
+<div
+  className="editor"
+  style={
+    Object {
+      "width": "270px",
+    }
+  }>
+  <input
+    name="category"
+    onChange={[Function]}
+    placeholder="Enter category title"
+    type="text"
+    value="" />
+  <div
+    className="add-button"
+    onClick={[Function]}>
+    <span
+      className="add-label">
+      ADD
+    </span>
+  </div>
+</div>
+`;

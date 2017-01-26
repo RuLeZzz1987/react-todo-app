@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Container } from 'flux/utils';
 import { CategoryStore } from '../stores';
-import { Category } from '../components/common'
+import { Category } from '../components/common';
+import { CategoryActions } from '../actions';
 
 class CategoryContainer extends Component {
 
@@ -14,6 +15,7 @@ class CategoryContainer extends Component {
     const category = categories[props.id];
 
     return {
+      categories,
       category,
     }
   }
@@ -25,6 +27,10 @@ class CategoryContainer extends Component {
       <Category
         {...this.state}
         {...this.props}
+        addCategory={CategoryActions.addCategory}
+        editCategory={CategoryActions.editCategory}
+        removeCategory={CategoryActions.removeCategory}
+        moveTo={CategoryActions.moveTodoToOther}
       />
     )
   }

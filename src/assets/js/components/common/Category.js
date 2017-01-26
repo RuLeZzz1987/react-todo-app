@@ -2,21 +2,22 @@ import React, { PureComponent, PropTypes } from "react";
 import { Link } from "react-router";
 import { hide, invisible } from "../../helpers/hide";
 import { Category as CategoryContainer } from "../../containers";
+import CategoryPropTypes from '../../helpers/PropTypes/Category';
+
+const {object, string, bool, func} = PropTypes;
 
 class Category extends PureComponent {
 
   static propTypes = {
-    categories: PropTypes.object,
-    id: PropTypes.string.isRequired,
-    selectedId: PropTypes.string,
-
-    changeCategoryName: PropTypes.func.isRequired,
-    removeCategory: PropTypes.func.isRequired,
-    addChild: PropTypes.func.isRequired,
-    selectedCategory: PropTypes.string,
-    showDone: PropTypes.bool.isRequired,
-    selectedTodoId: PropTypes.string,
-    moveTo: PropTypes.func,
+    categories: object,
+    category: CategoryPropTypes.isRequired,
+    id: string.isRequired,
+    params: object.isRequired,
+    isTodoFound: bool.isRequired,
+    editCategory: func.isRequired,
+    removeCategory: func.isRequired,
+    moveTo: func.isRequired,
+    addCategory: func.isRequired,
   };
 
   constructor(props) {
@@ -24,23 +25,21 @@ class Category extends PureComponent {
 
     this.state = {
       isEditMode: false,
-      name: props.category.name,
       showFullName: false,
       isCollapsed: false
     };
 
     this.toggleEditMode = this.toggleEditMode.bind(this);
-    this.editCategoryName = this.editCategoryName.bind(this);
-    this.changeCategoryName = this.changeCategoryName.bind(this, props.category.id);
+    this.changeCategoryName = this.changeCategoryName.bind(this);
     this.removeCategory = e => {
       e.preventDefault();
-      this.props.removeCategory(this.props.category.id);
+      this.props.removeCategory(this.props.id);
     };
     this.showFullName = () => this.setState({showFullName: true});
     this.hideFullName = () => this.setState({showFullName: false});
     this.addChild = e => {
       e.preventDefault();
-      this.props.addChild(this.props.category.id, this.generateChildName(1));
+      this.props.addCategory({parentId: this.props.id, name: this.generateChildName(1)});
     };
     this.toggleExpanded = e => {
       e.preventDefault();
@@ -48,7 +47,11 @@ class Category extends PureComponent {
     };
     this.moveTodo = e => {
       e.preventDefault();
-      this.props.moveTo(this.props.category.id);
+      this.props.moveTo({
+        sourceId: this.props.params.categoryId,
+        todoId: this.props.params.todoId,
+        targetId: this.props.id
+      });
     }
   }
 
@@ -62,6 +65,7 @@ class Category extends PureComponent {
   }
 
   toggleEditMode() {
+    this.nameInput.value = this.props.category.name;
     this.setState({isEditMode: !this.state.isEditMode}, () => {
       if (this.state.isEditMode) {
         this.nameInput.focus();
@@ -69,14 +73,10 @@ class Category extends PureComponent {
     });
   }
 
-  editCategoryName(e) {
-    this.setState({name: e.target.value});
-  }
-
-  changeCategoryName(id) {
+  changeCategoryName() {
     this.toggleEditMode();
     if (this.state.name != this.props.category.name) {
-      this.props.changeCategoryName(id, this.state.name)
+      this.props.editCategory(this.nameInput.value, this.props.id)
     }
   }
 
@@ -102,8 +102,7 @@ class Category extends PureComponent {
                 ref={el => {
                   this.nameInput = el
                 }}
-                value={this.state.name}
-                onChange={this.editCategoryName}
+                defaultValue={this.props.category.name}
                 onBlur={this.changeCategoryName}
                 className="category-editor"
               />
@@ -149,7 +148,7 @@ class Category extends PureComponent {
               <CategoryContainer
                 id={id}
                 key={id}
-                selectedId={this.props.selectedId}
+                params={this.props.params}
                 isTodoFound={this.props.isTodoFound}
               />
             )}

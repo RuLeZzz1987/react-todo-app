@@ -21,6 +21,14 @@ describe('CategoriesContainer', function () {
 
   });
 
+  it('can render Categories block showing only not completed items', function () {
+
+    Stores.FilterStore._state.showDone = false;
+
+    expect(this.render()).toMatchSnapshot();
+
+  });
+
   it('can render Categories tree', function () {
     Stores.CategoryStore._state = mock.categoryStore;
     Stores.TodoStore._state = mock.todoStore;
