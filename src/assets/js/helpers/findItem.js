@@ -1,14 +1,14 @@
-import { CATEGORY } from '../constants';
+import { CATEGORY } from "../constants";
 
 export const findItem = type => (categories, id) => {
   let resultItem;
 
   const find = item => {
-    if (item.id == id && item.type == type) {
+    if (item.id === id && item.type === type) {
       resultItem = item;
     }
-    if (!resultItem && item.type == CATEGORY) {
-      item.children.forEach(find)
+    if (!resultItem && item.type === CATEGORY) {
+      item.children.forEach(find);
     }
   };
 
