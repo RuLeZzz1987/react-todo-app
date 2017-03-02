@@ -1,1 +1,1 @@
-export { mockId } from './mockId';
+export mockId from "./mockId";

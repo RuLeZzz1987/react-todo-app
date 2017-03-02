@@ -1,10 +1,9 @@
-import { FilterStore } from '../src/assets/js/stores';
-import { FilterActions } from '../src/assets/js/actions';
+/* eslint-disable prefer-arrow-callback */
+import { FilterStore } from "../src/assets/js/stores";
+import { FilterActions } from "../src/assets/js/actions";
 
-describe('FilterActions', function () {
-
-  it('can toggle show done', function () {
-
+describe("FilterActions", function() {
+  it("can toggle show done", function() {
     let state = FilterStore.getState();
 
     const { showDone } = state;
@@ -14,12 +13,10 @@ describe('FilterActions', function () {
     state = FilterStore.getState();
 
     expect(state.showDone).toBe(!showDone);
-
   });
 
-  it('can change and clear filter', function () {
-
-    const nextFilter = 'next_filter';
+  it("can change and clear filter", function() {
+    const nextFilter = "next_filter";
 
     FilterActions.changeFilter(nextFilter);
 
@@ -31,8 +28,6 @@ describe('FilterActions', function () {
 
     state = FilterStore.getState();
 
-    expect(state.filter).toBe('');
-
+    expect(state.filter).toBe("");
   });
-
 });

@@ -1,22 +1,20 @@
-jest.mock('uuid');
-const uuid = require('uuid');
+/* eslint-disable prefer-arrow-callback */
+import { CategoryStore } from "../src/assets/js/stores";
+import mockData from "../mock";
+import CategoryActionTypes
+  from "../src/assets/js/constants/CategoryActionTypes";
+import TodoActionTypes from "../src/assets/js/constants/TodoActionTypes";
 
-import { CategoryStore } from '../src/assets/js/stores';
-import mockData from '../mock';
-import CategoryActions from '../src/assets/js/actions/CategoryActions';
-import CategoryActionTypes from '../src/assets/js/constants/CategoryActionTypes';
-import TodoActionTypes from '../src/assets/js/constants/TodoActionTypes';
+jest.mock("uuid");
 
-
-describe('CategoryStore', function () {
-
-  beforeEach(function () {
+describe("CategoryStore", function() {
+  beforeEach(function() {
     this.state = CategoryStore.getInitialState();
 
     this.addCategories = () => {
       Object.keys(mockData.categoryStore).forEach(id => {
         this.state[id] = mockData.categoryStore[id];
-      })
+      });
     };
 
     this.dispatch = action => {
@@ -24,21 +22,21 @@ describe('CategoryStore', function () {
     };
   });
 
-  it('should return unchanged state on not registered action types', function () {
+  it(
+    "should return unchanged state on not registered action types",
+    function() {
+      const thatState = this.state;
 
-    const thatState = this.state;
+      this.dispatch({
+        type: Symbol("UNREGISTERED_ACTION")
+      });
 
-    this.dispatch({
-      type: Symbol('UNREGISTERED_ACTION')
-    });
+      expect(this.state).toBe(thatState);
+    }
+  );
 
-    expect(this.state).toBe(thatState);
-
-  });
-
-  it('can add root Category', function () {
-
-    const name = 'Category_1';
+  it("can add root Category", function() {
+    const name = "Category_1";
     const id = 1;
 
     this.dispatch({
@@ -55,13 +53,12 @@ describe('CategoryStore', function () {
     expect(category.subCategories).toEqual([]);
     expect(category.isComplete).toBeTruthy();
     expect(category.parentId).toBeUndefined();
-
   });
 
-  it('can add sub Category', function () {
-    const rootName = 'Category_1';
+  it("can add sub Category", function() {
+    const rootName = "Category_1";
     const rootId = 1;
-    const subName = 'Category_1_1';
+    const subName = "Category_1_1";
     const subId = 2;
 
     this.dispatch({
@@ -82,13 +79,10 @@ describe('CategoryStore', function () {
 
     expect(root.subCategories).toEqual([subId]);
     expect(sub.parentId).toBe(rootId);
-
   });
 
-  it('can remove category with sub categories', function () {
+  it("can remove category with sub categories", function() {
     this.addCategories();
-
-    const thatState = this.state;
 
     const allIds = Object.keys(mockData.categoryStore);
     const willStay = allIds.slice(0, 2);
@@ -102,8 +96,7 @@ describe('CategoryStore', function () {
     expect(Object.keys(this.state)).toEqual(willStay);
   });
 
-  it('should return unchanged state while trying to remove no ids', function () {
-
+  it("should return unchanged state while trying to remove no ids", function() {
     const thatState = this.state;
 
     this.dispatch({
@@ -112,48 +105,41 @@ describe('CategoryStore', function () {
     });
 
     expect(thatState).toBe(this.state);
-
   });
 
-  describe('can manipulate with single category', function () {
-
-
-    beforeEach(function () {
+  describe("can manipulate with single category", () => {
+    beforeEach(function() {
       this.addCategories();
 
-      this.id = '5';
+      this.id = "5";
 
       this.category = mockData.categoryStore[this.id];
     });
 
-    it('can edit category name', function () {
-
-      const nextName = 'Category_1_NEXT';
+    it("can edit category name", function() {
+      const nextName = "Category_1_NEXT";
 
       expect(this.state[this.id].name).toBe(this.category.name);
 
       this.dispatch({
         type: CategoryActionTypes.EDIT_CATEGORY,
         id: this.id,
-        name: nextName,
+        name: nextName
       });
       expect(this.state[this.id].name).toBe(nextName);
-
     });
 
-    it('can add todo', function () {
+    it("can add todo", function() {
       this.dispatch({
         type: TodoActionTypes.ADD_TODO,
         categoryId: this.id,
-        id: '1'
+        id: "1"
       });
 
-      expect(this.state[this.id].todos).toContain('1')
-
+      expect(this.state[this.id].todos).toContain("1");
     });
 
-    it('can toggle category', function () {
-
+    it("can toggle category", function() {
       const isComplete = this.state[this.id].isComplete;
 
       this.dispatch({
@@ -163,7 +149,5 @@ describe('CategoryStore', function () {
 
       expect(this.state[this.id].isComplete).toBe(!isComplete);
     });
-
   });
-
 });

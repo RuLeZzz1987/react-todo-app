@@ -1,5 +1,5 @@
-jest.mock('uuid');
+import uuid from "uuid";
 
-import uuid from 'uuid';
+jest.mock("uuid");
 
-export const mockId = id => uuid.v4.mockImplementation(()=>id);
+export default id => uuid.v4.mockImplementation(() => id);

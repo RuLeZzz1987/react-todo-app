@@ -1,19 +1,18 @@
-import { ErrorStore } from '../src/assets/js/stores';
-import { ErrorActionTypes, TODO } from '../src/assets/js/constants'
+/* eslint-disable prefer-arrow-callback */
+import { ErrorStore } from "../src/assets/js/stores";
+import { ErrorActionTypes, TODO } from "../src/assets/js/constants";
 
-describe('ErrorStore', function () {
-
-  beforeEach(function () {
+describe("ErrorStore", function() {
+  beforeEach(function() {
     this.state = ErrorStore.getInitialState();
 
     this.dispatch = action => {
       this.state = ErrorStore.reduce(this.state, action);
-    }
+    };
   });
 
-  it('can set error with message and clear after it', function () {
-
-    const message = 'error message';
+  it("can set error with message and clear after it", function() {
+    const message = "error message";
 
     this.dispatch({
       type: ErrorActionTypes.SET_ERROR,
@@ -27,12 +26,10 @@ describe('ErrorStore', function () {
       type: ErrorActionTypes.CLEAR_ERROR
     });
 
-    expect(this.state).toEqual(ErrorStore.getInitialState())
-
+    expect(this.state).toEqual(ErrorStore.getInitialState());
   });
 
-  it('can set to show error in popup', function () {
-
+  it("can set to show error in popup", function() {
     expect(this.state.showInPopup).toBeFalsy();
 
     this.dispatch({
@@ -41,18 +38,14 @@ describe('ErrorStore', function () {
     });
 
     expect(this.state.showInPopup).toBeTruthy();
-
   });
 
-  it('can set error type', function () {
-
+  it("can set error type", function() {
     this.dispatch({
       type: ErrorActionTypes.SET_ERROR_TYPE,
       errorType: TODO
     });
 
     expect(this.state.type).toBe(TODO);
-
   });
-
 });
