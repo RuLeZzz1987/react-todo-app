@@ -1,16 +1,16 @@
+/* eslint-disable class-methods-use-this */
 import { ReduceStore } from "flux/utils";
 import CategoryTypes from "../constants/CategoryActionTypes";
-import TodoTypes from '../constants/TodoActionTypes';
-import Dispatcher from '../dispatcher';
+import TodoTypes from "../constants/TodoActionTypes";
+import Dispatcher from "../dispatcher";
 
 class CategoryStore extends ReduceStore {
-
   constructor() {
     super(Dispatcher);
   }
 
   getInitialState() {
-    return {}
+    return {};
   }
 
   reduce(state, action) {
@@ -33,17 +33,17 @@ class CategoryStore extends ReduceStore {
   }
 }
 
-function toggleCategory(state, {id}) {
+function toggleCategory(state, { id }) {
   return {
     ...state,
     [id]: {
       ...state[id],
       isComplete: !state[id].isComplete
     }
-  }
+  };
 }
 
-function addCategory(state, {name, parentId, id}) {
+function addCategory(state, { name, parentId, id }) {
   const nextState = {
     ...state,
     [id]: {
@@ -58,43 +58,47 @@ function addCategory(state, {name, parentId, id}) {
     nextState[parentId] = {
       ...state[parentId],
       subCategories: state[parentId].subCategories.concat(id)
-    }
+    };
   }
   return nextState;
 }
 
-function addTodo(state, {id, categoryId}) {
+function addTodo(state, { id, categoryId }) {
   return {
     ...state,
     [categoryId]: {
       ...state[categoryId],
       todos: state[categoryId].todos.concat(id)
     }
-  }
+  };
 }
 
-function removeCategories(state, {ids}) {
+function removeCategories(state, { ids }) {
   const categoryIds = Object.keys(state);
-  if (categoryIds.length == 0) return state;
+  if (categoryIds.length === 0) return state;
 
-  return categoryIds.reduce((nextState, current) => {
-    if (!ids.includes(current)) nextState[current] = state[current];
+  return categoryIds.reduce(
+    (nextState, current) => {
+      // eslint-disable-next-line no-param-reassign
+      if (!ids.includes(current)) nextState[current] = state[current];
 
-    return nextState;
-  }, {})
+      return nextState;
+    },
+    {}
+  );
 }
 
-function editCategory(state, {name, id}) {
+function editCategory(state, { name, id }) {
   return {
     ...state,
     [id]: {
       ...state[id],
       name
-    },
-  }
+    }
+  };
 }
 
-function moveTodoToOther(state, {todoId, targetId, sourceId}) {
+function moveTodoToOther(state, { todoId, targetId, sourceId }) {
   return {
     ...state,
     [targetId]: {
@@ -103,9 +107,9 @@ function moveTodoToOther(state, {todoId, targetId, sourceId}) {
     },
     [sourceId]: {
       ...state[sourceId],
-      todos: state[sourceId].todos.filter(todoId => todoId != todoId)
+      todos: state[sourceId].todos.filter(id => id !== todoId)
     }
-  }
+  };
 }
 
 export default new CategoryStore();

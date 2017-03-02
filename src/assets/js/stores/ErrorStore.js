@@ -1,24 +1,24 @@
-import { ReduceStore } from 'flux/utils';
-import Dispatcher from '../dispatcher';
-import { ErrorActionTypes } from '../constants';
+/* eslint-disable class-methods-use-this */
+import { ReduceStore } from "flux/utils";
+import Dispatcher from "../dispatcher";
+import { ErrorActionTypes } from "../constants";
 
 class ErrorStore extends ReduceStore {
-
   constructor() {
     super(Dispatcher);
   }
 
   getInitialState() {
     return {
-      message: '',
+      message: "",
       type: null,
       showInPopup: false,
       isError: false
-    }
+    };
   }
 
   reduce(state, action) {
-    switch(action.type) {
+    switch (action.type) {
       case ErrorActionTypes.SET_ERROR:
         return setError(state, action);
       case ErrorActionTypes.CLEAR_ERROR:
@@ -37,14 +37,14 @@ function setError(state, action) {
   return {
     ...state,
     message: action.message,
-    isError: true,
+    isError: true
   };
 }
 
 function showInPopup(state, action) {
   return {
     ...state,
-    showInPopup: action.showInPopup,
+    showInPopup: action.showInPopup
   };
 }
 

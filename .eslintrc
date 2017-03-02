@@ -1,7 +1,15 @@
 {
   "parser": "babel-eslint",
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "prettier",
+    "prettier/react"
+  ],
   "rules": {
+    "no-use-before-define": [
+      2,
+      "nofunc"
+    ],
     "no-underscore-dangle": 0,
     "react/jsx-filename-extension": 0,
     "func-names": [
@@ -20,11 +28,14 @@
       2,
       "double"
     ],
-    "space-before-function-paren": ["error", {
-      "anonymous": "ignore",
-      "named": "ignore",
-      "asyncArrow": "ignore"
-    }],
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "ignore",
+        "named": "ignore",
+        "asyncArrow": "ignore"
+      }
+    ],
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error"
@@ -32,7 +43,8 @@
   "env": {
     "jest": true,
     "jest/globals": true,
-    "es6": true
+    "es6": true,
+    "browser": true
   },
   "plugins": [
     "jest"

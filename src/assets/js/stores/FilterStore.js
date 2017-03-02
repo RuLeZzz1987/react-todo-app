@@ -1,18 +1,18 @@
-import { ReduceStore } from 'flux/utils';
-import { FilterActionTypes } from '../constants';
-import Dispatcher from '../dispatcher';
+/* eslint-disable class-methods-use-this */
+import { ReduceStore } from "flux/utils";
+import { FilterActionTypes } from "../constants";
+import Dispatcher from "../dispatcher";
 
 class FilterStore extends ReduceStore {
-
   constructor() {
     super(Dispatcher);
   }
 
   getInitialState() {
     return {
-      filter: '',
-      showDone: true,
-    }
+      filter: "",
+      showDone: true
+    };
   }
 
   reduce(state, action) {
@@ -30,7 +30,7 @@ class FilterStore extends ReduceStore {
       case FilterActionTypes.CLEAR_FILTER:
         return {
           ...state,
-          filter: ''
+          filter: ""
         };
       default:
         return state;

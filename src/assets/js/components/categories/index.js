@@ -2,7 +2,16 @@ import React, { PropTypes } from "react";
 import { Editor, Category } from "../../containers";
 import { CATEGORY } from "../../constants";
 
-const { bool, func, arrayOf, string, object, array, oneOfType, node } = PropTypes;
+const {
+  bool,
+  func,
+  arrayOf,
+  string,
+  object,
+  array,
+  oneOfType,
+  node
+} = PropTypes;
 
 const Categories = ({ addCategory, ids, params, isTodoFound }) => (
   <aside className="categories">
@@ -38,8 +47,5 @@ const CategoryTree = ({ ids, children }) => (
 CategoryTree.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   ids: array.isRequired,
-  children: oneOfType([
-    arrayOf(node),
-    node
-  ]).isRequired
+  children: oneOfType([arrayOf(node), node]).isRequired
 };

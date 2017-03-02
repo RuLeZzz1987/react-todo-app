@@ -1,15 +1,15 @@
-import { ReduceStore } from 'flux/utils';
-import TodoActionTypes from '../constants/TodoActionTypes';
-import Dispatcher from '../dispatcher';
+/* eslint-disable class-methods-use-this */
+import { ReduceStore } from "flux/utils";
+import TodoActionTypes from "../constants/TodoActionTypes";
+import Dispatcher from "../dispatcher";
 
 class TodoStore extends ReduceStore {
-
   constructor() {
     super(Dispatcher);
   }
 
   getInitialState() {
-    return {}
+    return {};
   }
 
   reduce(state, action) {
@@ -30,29 +30,33 @@ class TodoStore extends ReduceStore {
   }
 }
 
-function removeTodos(state, {ids}) {
+function removeTodos(state, { ids }) {
   const todoIds = Object.keys(state);
-  if (todoIds.length == 0 || ids.length == 0) return state;
+  if (todoIds.length === 0 || ids.length === 0) return state;
 
-  return todoIds.reduce((nextState, currentId) => {
-    if (!ids.includes(currentId)) nextState[currentId] = state[currentId];
-    return nextState
-  }, {})
+  return todoIds.reduce(
+    (nextState, currentId) => {
+      // eslint-disable-next-line no-param-reassign
+      if (!ids.includes(currentId)) nextState[currentId] = state[currentId];
+      return nextState;
+    },
+    {}
+  );
 }
 
-function addTodo(state, {categoryId, name, id}) {
+function addTodo(state, { categoryId, name, id }) {
   return {
     ...state,
     [id]: {
       name,
       categoryId,
       isComplete: false,
-      description: ''
+      description: ""
     }
   };
 }
 
-function toggleTodo(state, {id}) {
+function toggleTodo(state, { id }) {
   return {
     ...state,
     [id]: {
@@ -62,25 +66,25 @@ function toggleTodo(state, {id}) {
   };
 }
 
-function editTodo(state, {id, name, description, isComplete}) {
+function editTodo(state, { id, name, description, isComplete }) {
   return {
     ...state,
     [id]: {
       ...state[id],
       name,
       description,
-      isComplete,
-    },
+      isComplete
+    }
   };
 }
 
-function moveTo(state, {id, categoryId}) {
+function moveTo(state, { id, categoryId }) {
   return {
     ...state,
     [id]: {
       ...state[id],
-      categoryId,
-    },
+      categoryId
+    }
   };
 }
 
